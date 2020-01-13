@@ -227,19 +227,19 @@ defaults:
       author_profile: true
       share: true
       comments: true
-  # _portfolio
+  # _projects
   - scope:
       path: ""
-      type: portfolio
+      type: projects
     values:
       layout: single
       author_profile: true
       share: true
       comment: true
-  # _talks
+  # _comms
   - scope:
       path: ""
-      type: talks
+      type: comms
     values:
       layout: talk
       author_profile: true
