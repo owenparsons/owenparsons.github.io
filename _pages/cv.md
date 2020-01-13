@@ -11,30 +11,61 @@ redirect_from:
 
 Education
 ======
-* B.S. in GitHub, GitHub University, 2012
-* M.S. in Jekyll, GitHub University, 2014
-* Ph.D in Version Control Theory, GitHub University, 2018 (expected)
+* BSc in Physics and Philosophy, Unievrsity of Bristol, 2009
+* MSc in Experimental Psychology, University of Sussex, 2012
+* PhD in Cognitive Neuroscience, University of Cambridge, 2019 
 
-Work experience
+Employment and Secondments
 ======
-* Summer 2015: Research Assistant
-  * Github University
-  * Duties included: Tagging issues
-  * Supervisor: Professor Git
+* Data Scientist
+  * May 2019 - Present
+  * Latent Logic, Oxford
 
-* Fall 2015: Research Assistant
-  * Github University
-  * Duties included: Merging pull requests
-  * Supervisor: Professor Hub
+* Research Associate
+  * Nov 2018 - May 2019
+  * Autism Research Centre, University of Cambridge
+  
+* MRC Policy Fellowship
+  * June 2018 - Sept 2018
+  * Open Innovation Team, Cabinet Office
+  
+* RCUK Policy Fellowship
+  * Sept 2017 - Jan 2018
+  * Government Office for Science
+  
+* Research Assistant
+  * Feb 2014 - Oct 2014
+  * University College London
+  
+* Research Coordinator
+  * Sept 2013 - Feb 2014
+  * Autism Research Centre, University of Cambridge
+  
+* Research Associate
+  * August 2012 - Sept 2013
+  * Stroke Research Unit, St. George's University, London
   
 Skills
 ======
-* Skill 1
-* Skill 2
-  * Sub-skill 2.1
-  * Sub-skill 2.2
-  * Sub-skill 2.3
-* Skill 3
+* Data Science and Statistics
+  * Python (Pandas, Numpy, Scipy)
+  * R (nlme, lme4, CBA, Caret, BayesFactor)
+  * R Shiny
+  * SPSS
+  * JASP
+* Machine Learning
+  * TensorFlow
+  * PyTorch
+  * Keras
+  * Scikit-learn
+  * PyMC3
+* Computational Modelling
+  * MATLAB (HGF, Tapas, DCM, VBLM)
+  * Python (PyBrain, spiking neural network simulators)
+* Neuroimaging
+  * EEG acquisition (BioSemi)
+  * EEG Analysis (mne-python)
+  * MRI analysis (nipy, FSL, SPM)
 
 Publications
 ======
@@ -42,18 +73,9 @@ Publications
     {% include archive-single-cv.html %}
   {% endfor %}</ul>
   
-Talks
+Science communication
 ======
-  <ul>{% for post in site.talks %}
-    {% include archive-single-talk-cv.html %}
+  <ul>{% for post in site.comms %}
+    {% include archive-single-comms-cv.html %}
   {% endfor %}</ul>
   
-Teaching
-======
-  <ul>{% for post in site.teaching %}
-    {% include archive-single-cv.html %}
-  {% endfor %}</ul>
-  
-Service and leadership
-======
-* Currently signed in to 43 different slack teams
