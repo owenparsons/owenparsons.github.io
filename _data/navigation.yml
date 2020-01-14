@@ -1,16 +1,16 @@
 # main links links
 main:
-  - title: "Projects"
-    url: /projects/
-
-  - title: "Blog"
-    url: /year-archive/
-
-  - title: "Publications"
-    url: /publications/
+  - title: "CV"
+    url: /cv/
 
   - title: "Science Communication"
     url: /comms/
 
-  - title: "CV"
-    url: /cv/
+  - title: "Publications"
+    url: /publications/
+
+  - title: "Projects"
+    url: /projects/
+
+  #- title: "Blog"
+  #  url: /year-archive/
