@@ -181,6 +181,12 @@ collections:
   publications:
     output: true
     permalink: /:collection/:path/
+  conferencepublications:
+    output: true
+    permalink: /:collection/:path/
+  journalpublications:
+    output: true
+    permalink: /:collection/:path/
   projects:
     output: true
     permalink: /:collection/:path/
