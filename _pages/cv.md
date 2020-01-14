@@ -11,9 +11,9 @@ redirect_from:
 
 Education
 ======
-* BSc in Physics and Philosophy, Unievrsity of Bristol, 2009
+* BSc in Physics and Philosophy, University of Bristol, 2009
 * MSc in Experimental Psychology, University of Sussex, 2012
-* PhD in Cognitive Neuroscience, University of Cambridge, 2019 
+* PhD in Cognitive Neuroscience, University of Cambridge, 2019
 
 Employment and Secondments
 ======
@@ -24,27 +24,27 @@ Employment and Secondments
 * Research Associate
   * Nov 2018 - May 2019
   * Autism Research Centre, University of Cambridge
-  
+
 * MRC Policy Fellowship
   * June 2018 - Sept 2018
   * Open Innovation Team, Cabinet Office
-  
+
 * RCUK Policy Fellowship
   * Sept 2017 - Jan 2018
   * Government Office for Science
-  
+
 * Research Assistant
   * Feb 2014 - Oct 2014
   * University College London
-  
+
 * Research Coordinator
   * Sept 2013 - Feb 2014
   * Autism Research Centre, University of Cambridge
-  
+
 * Research Associate
   * August 2012 - Sept 2013
   * Stroke Research Unit, St. George's University, London
-  
+
 Skills
 ======
 * Data Science and Statistics
@@ -72,10 +72,7 @@ Publications
   <ul>{% for post in site.publications %}
     {% include archive-single-cv.html %}
   {% endfor %}</ul>
-  
+
 Science communication
 ======
-  <ul>{% for post in site.comms %}
-    {% include archive-single-comms-cv.html %}
-  {% endfor %}</ul>
-  
+Link to page

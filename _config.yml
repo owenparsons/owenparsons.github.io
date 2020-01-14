@@ -241,7 +241,7 @@ defaults:
       path: ""
       type: comms
     values:
-      layout: talk
+      layout: single
       author_profile: true
       share: true
 

@@ -5,10 +5,12 @@ main:
 
   - title: "Blog"
     url: /year-archive/
-    
+
   - title: "Publications"
     url: /publications/
-    
+
+  - title: "Science Communication"
+    url: /comms/
+
   - title: "CV"
     url: /cv/
-  
