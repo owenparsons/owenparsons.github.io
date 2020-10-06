@@ -1,15 +1,8 @@
 ---
-title: "Paper Title Number 3"
+title: "Atrial fibrillation genetic risk and ischemic stroke mechanisms"
 collection: journalpublications
-permalink: /publication/2015-10-01-paper-title-number-3
-excerpt: 'This paper is about the number 3. The number 4 is left for future work.'
-date: 2015-10-01
-venue: 'Journal 122'
-paperurl: 'http://academicpages.github.io/files/paper3.pdf'
-citation: 'Your Name, You. (2015). &quot;Paper Title Number 3.&quot; <i>Journal 1</i>. 1(3).'
+date: 2017-05-03
+venue: 'Stroke'
+paperurl: 'https://pubmed.ncbi.nlm.nih.gov/28468926/'
+citation: 'Lubitz, S. A., Parsons, O. E., Anderson, C. D., Benjamin, E. J., Malik, R., Weng, L. C., ... & Ellinor, P. T. (2017). Atrial fibrillation genetic risk and ischemic stroke mechanisms. Stroke, 48(6), 1451-1456.'
 ---
-This paper is about the number 3. The number 4 is left for future work.
-
-[Download paper here](http://academicpages.github.io/files/paper3.pdf)
-
-Recommended citation: Your Name, You. (2015). "Paper Title Number 3." <i>Journal 1</i>. 1(3).
