@@ -17,8 +17,12 @@ Education
 
 Employment and Secondments
 ======
+* Senior Machine Learning Researcher
+  * March 2020 - Present
+  * Sensyne Health, Oxford
+  
 * Data Scientist
-  * May 2019 - Present
+  * May 2019 - March 2020
   * Latent Logic, Oxford
 
 * Research Associate
@@ -67,12 +71,16 @@ Skills
   * EEG Analysis (mne-python)
   * MRI analysis (nipy, FSL, SPM)
 
-Publications
+[Publications](https://owenparsons.github.io/publications/)
 ======
   <ul>{% for post in site.publications %}
     {% include archive-single-cv.html %}
   {% endfor %}</ul>
 
-Science communication
+[Science communication](https://owenparsons.github.io/comms/)
 ======
-Link to page
+* [Scientific advisor for *The Party*, Guardian VR](https://www.theguardian.com/gnm-press-office/2017/oct/09/guardian-launches-the-party-a-virtual-experience-of-autism)
+* [Scientific consultant for the film *The Reason I Jump.*](https://www.sundance.org/projects/the-reason-i-jump)
+* [News editor, Department of Psychiatry, University of Cambridge](https://www.psychiatry.cam.ac.uk/blog/category/news/)
+* [Podcast producer for the Cambridge University Science and Policy Exchange](http://www.cuspe.org/)
+
