@@ -8,14 +8,14 @@ author_profile: true
 
 {% include base_path %}
 
-I have a strong interest in science communication and science policy. Here's are a summary of a few of the projects I've worked.
+I have a strong interest in science communication and science policy. Here's are a summary of a few of the projects I've worked on.
 
 Scientific advisor for *The Party*, Guardian VR
 ======
 
 I worked as the main scientific advisor on [the Guardian's short film *The Party*](https://www.theguardian.com/gnm-press-office/2017/oct/09/guardian-launches-the-party-a-virtual-experience-of-autism), which is designed to be an immersive experience to held people understand some of the challenges that autistic people face. I worked closely with the script writers and directors during the making of the film, as well as organising a number of discussion groups so that members of the autistic community could have an input into the film. [You can read a bit more about the film (and other uses of virtual reality in autism research) here](https://www.spectrumnews.org/features/deep-dive/virtual-reality-transforming-autism-studies/) and [you can listen to a podcast which discusses the film here](https://www.spectrumnews.org/features/multimedia/podcasts/spectrum-stories-seeing-autistic-persons-eyes/).
 
-Scientific consultant for film *The Reason I Jump*.
+Scientific consultant for the film *The Reason I Jump*.
 ======
 
 I worked as a scientific consultant on the film adaptation of the [award winning book *The Reason I jump*](https://www.goodreads.com/book/show/16113737-the-reason-i-jump). [The film was released in February 2020](https://www.imdb.com/title/tt9098928/) and it received the [Audience Award at Sundance festival](https://www.sundance.org/projects/the-reason-i-jump).
