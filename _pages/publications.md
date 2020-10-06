@@ -15,7 +15,7 @@ author_profile: true
   {% include archive-single.html %}
 {% endfor %}
 
-## Conference presentations
+# Conference presentations
 
 {% for post in site.conferencepublications reversed %}
   {% include archive-single.html %}
