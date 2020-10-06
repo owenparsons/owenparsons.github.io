@@ -18,14 +18,14 @@ I worked as the main scientific advisor on [the Guardian's short film *The Party
 Scientific consultant for film *The Reason I Jump*.
 ======
 
-I worked as a scientific consultant on the film adaptation of the [award winning book *The Reason I jump*](https://www.goodreads.com/book/show/16113737-the-reason-i-jump). [The film is due to be released in January 2020.](https://www.imdb.com/title/tt9098928/)
+I worked as a scientific consultant on the film adaptation of the [award winning book *The Reason I jump*](https://www.goodreads.com/book/show/16113737-the-reason-i-jump). [The film was released in February 2020](https://www.imdb.com/title/tt9098928/) and it received the [Audience Award at Sundance festival](https://www.sundance.org/projects/the-reason-i-jump).
 
 Student media
 ======
 
 During my PhD, I spent a year as a writer for the psychiatry department's news team before taking on the role of editor for 2 years. [You can read some of the articles I worked on here.](https://www.psychiatry.cam.ac.uk/blog/category/news/). At the end of my PhD, I then did a short interview with the news team about my thesis research. [You can read that here.](https://www.psychiatry.cam.ac.uk/blog/2019/03/11/congratulations-to-owen-parsons-for-completing-his-phd/)
 
-I also co-founded and produced a podcast for the Cambridge University Science and Policy Exchange (CUSPE). [You can listen to the podcasts here.](http://www.cuspe.org/podcast/)
+I also co-founded and produced a podcast for the Cambridge University Science and Policy Exchange (CUSPE). [You can listen to the podcasts here.](http://www.cuspe.org/)
 
 Policy work
 ======
