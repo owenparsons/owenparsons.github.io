@@ -74,12 +74,14 @@ Skills
 [Publications](https://owenparsons.github.io/publications/)
 ======
   <ul>{% for post in site.journalpublications reversed %}
+    {% include archive-single-cv.html %}
   {% endfor %}</ul>
 
 [Conference presentations](https://owenparsons.github.io/publications/)
 ======
 
   <ul>{% for post in site.conferencepublications reversed %}
+    {% include archive-single-cv.html %}
   {% endfor %}</ul>
 
 
