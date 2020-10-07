@@ -73,9 +73,17 @@ Skills
 
 [Publications](https://owenparsons.github.io/publications/)
 ======
-  <ul>{% for post in site.publications %}
+  <ul>{% for post in site.journalpublications %}
     {% include archive-single-cv.html %}
   {% endfor %}</ul>
+
+[Conference presentations](https://owenparsons.github.io/publications/)
+======
+
+  <ul>{% for post in site.conferencepublications %}
+    {% include archive-single-cv.html %}
+  {% endfor %}</ul>
+
 
 [Science communication](https://owenparsons.github.io/comms/)
 ======
