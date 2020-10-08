@@ -1,5 +1,5 @@
 ---
-title: "Statistical Learning of Dynamic Contingencies in Autism Spectrum Conditions."
+title: "Statistical learning of dynamic contingencies in autism spectrum conditions."
 collection: conferencepublications
 date: 2018-05-01
 venue: 'International Society for Autism Research (INSAR)'
