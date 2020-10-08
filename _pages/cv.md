@@ -11,9 +11,9 @@ redirect_from:
 
 Education
 ======
-* BSc in Physics and Philosophy, University of Bristol, 2009
-* MSc in Experimental Psychology, University of Sussex, 2012
 * PhD in Cognitive Neuroscience, University of Cambridge, 2019
+* MSc in Experimental Psychology, University of Sussex, 2012
+* BSc in Physics and Philosophy, University of Bristol, 2009
 
 Employment and Secondments
 ======
@@ -21,7 +21,7 @@ Employment and Secondments
   * March 2020 - Present
   * Sensyne Health, Oxford
   
-* Data Scientist
+* Lead Data Scientist
   * May 2019 - March 2020
   * Latent Logic, Oxford
 
@@ -54,8 +54,6 @@ Skills
 * Data Science and Statistics
   * Python (Pandas, Numpy, Scipy)
   * R (nlme, lme4, CBA, Caret, BayesFactor)
-  * R Shiny
-  * SPSS
   * JASP
 * Machine Learning
   * TensorFlow
@@ -88,7 +86,7 @@ Skills
 [Science communication](https://owenparsons.github.io/comms/)
 ======
 * [Scientific advisor for *The Party*, Guardian VR](https://www.theguardian.com/gnm-press-office/2017/oct/09/guardian-launches-the-party-a-virtual-experience-of-autism)
-* [Scientific consultant for the film *The Reason I Jump.*](https://www.sundance.org/projects/the-reason-i-jump)
+* [Scientific consultant for the film *The Reason I Jump*](https://www.sundance.org/projects/the-reason-i-jump)
 * [News editor, Department of Psychiatry, University of Cambridge](https://www.psychiatry.cam.ac.uk/blog/category/news/)
 * [Podcast producer for the Cambridge University Science and Policy Exchange](http://www.cuspe.org/)
 
