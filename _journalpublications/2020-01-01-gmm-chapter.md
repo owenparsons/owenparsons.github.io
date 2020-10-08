@@ -1,5 +1,5 @@
 ---
-title: "A Gaussian Mixture Model Approach to Classifying Response Types"
+title: "A Gaussian mixture model approach to classifying response types"
 collection: journalpublications
 date: 2020-01-01
 venue: 'Springer'
