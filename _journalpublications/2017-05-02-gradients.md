@@ -1,5 +1,5 @@
 ---
-title: "Gradients of cortical hierarchy in Autism"
+title: "Gradients of cortical hierarchy in autism"
 collection: journalpublications
 date: 2017-05-02
 venue: 'Research Ideas and Outcomes.'
