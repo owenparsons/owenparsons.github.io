@@ -8,12 +8,12 @@ author_profile: true
 
 {% include base_path %}
 
-I have a strong interest in science communication and science policy. Here's are a summary of a few of the projects I've worked on.
+I have a strong interest in science communication and science policy. Here's a summary of a few of the projects I've worked on.
 
 Scientific advisor for *The Party*, Guardian VR
 ======
 
-I worked as the main scientific advisor on [the Guardian's short film *The Party*](https://www.theguardian.com/gnm-press-office/2017/oct/09/guardian-launches-the-party-a-virtual-experience-of-autism), which is designed to be an immersive experience to held people understand some of the challenges that autistic people face. I worked closely with the script writers and directors during the making of the film, as well as organising a number of discussion groups so that members of the autistic community could have an input into the film. [You can read a bit more about the film (and other uses of virtual reality in autism research) here](https://www.spectrumnews.org/features/deep-dive/virtual-reality-transforming-autism-studies/) and [you can listen to a podcast which discusses the film here](https://www.spectrumnews.org/features/multimedia/podcasts/spectrum-stories-seeing-autistic-persons-eyes/).
+I worked as the main scientific advisor on [the Guardian's short film *The Party*](https://www.theguardian.com/gnm-press-office/2017/oct/09/guardian-launches-the-party-a-virtual-experience-of-autism), which is designed to be an immersive experience to help people understand some of the challenges that autistic people face. I worked closely with the script writers and directors during the making of the film, as well as organising a number of discussion groups so that members of the autistic community could have an input into the film. [You can read a bit more about the film (and other uses of virtual reality in autism research) here](https://www.spectrumnews.org/features/deep-dive/virtual-reality-transforming-autism-studies/) and [you can listen to an interview I did for a podcast which discusses the film here](https://www.spectrumnews.org/features/multimedia/podcasts/spectrum-stories-seeing-autistic-persons-eyes/).
 
 Scientific consultant for the film *The Reason I Jump*.
 ======
@@ -23,7 +23,7 @@ I worked as a scientific consultant on the film adaptation of the [award winning
 Student media
 ======
 
-During my PhD, I spent a year as a writer for the psychiatry department's news team before taking on the role of editor for 2 years. [You can read some of the articles I worked on here.](https://www.psychiatry.cam.ac.uk/blog/category/news/). At the end of my PhD, I then did a short interview with the news team about my thesis research. [You can read that here.](https://www.psychiatry.cam.ac.uk/blog/2019/03/11/congratulations-to-owen-parsons-for-completing-his-phd/)
+During my PhD, I spent a year as a writer for the psychiatry department's news team before taking on the role of editor for 2 years. [You can read some of the articles I worked on here](https://www.psychiatry.cam.ac.uk/blog/category/news/). At the end of my PhD, I then did a short interview with the news team about my thesis research. [You can read that here.](https://www.psychiatry.cam.ac.uk/blog/2019/03/11/congratulations-to-owen-parsons-for-completing-his-phd/)
 
 I also co-founded and produced a podcast for the Cambridge University Science and Policy Exchange (CUSPE). [You can listen to the podcasts here.](http://www.cuspe.org/)
 
@@ -35,4 +35,4 @@ I spent 3 months working at the [Open Innovation Team](https://openinnovation.bl
 
 I also spent 3 months working at the [Government Office for Science.](https://www.gov.uk/government/organisations/government-office-for-science) The main focus of my work during this secondment was on [the Future of the Sea publication.](https://www.gov.uk/government/publications/future-of-the-sea--2)
 
-If you're a PhD student would be interested in applying for the RCUK scheme, [you can find more information here](https://www.ukri.org/skills/policy-internships-scheme/) or feel free to reach out to me if you have any questions.
+If you're a PhD student and would be interested in applying for the RCUK scheme, [you can find more information here](https://www.ukri.org/skills/policy-internships-scheme/) or feel free to reach out to me if you have any questions.
