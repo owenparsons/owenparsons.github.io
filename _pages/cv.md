@@ -31,7 +31,7 @@ Employment and Secondments
   
 * Lead Data Scientist
   * May 2019 - March 2020
-  * Latent Logic, Oxford
+  * Waymo UK/Latent Logic, Oxford
 
 * Research Associate
   * Nov 2018 - May 2019
