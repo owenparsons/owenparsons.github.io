@@ -17,8 +17,16 @@ Education
 
 Employment and Secondments
 ======
+* Lead Machine Learning Researcher
+  * September 2022 - Present
+  * Mind Foundry, Oxford
+    
 * Senior Machine Learning Researcher
-  * March 2020 - Present
+  * April 2022 - September 2022
+  * Mind Foundry, Oxford
+    
+* Senior Machine Learning Researcher
+  * March 2020 - April 2022
   * Sensyne Health, Oxford
   
 * Lead Data Scientist
@@ -68,25 +76,4 @@ Skills
   * EEG acquisition (BioSemi)
   * EEG Analysis (mne-python)
   * MRI analysis (nipy, FSL, SPM)
-
-[Publications](https://owenparsons.github.io/publications/)
-======
-  <ul>{% for post in site.journalpublications reversed %}
-    {% include archive-single-cv.html %}
-  {% endfor %}</ul>
-
-[Conference presentations](https://owenparsons.github.io/publications/)
-======
-
-  <ul>{% for post in site.conferencepublications reversed %}
-    {% include archive-single-cv.html %}
-  {% endfor %}</ul>
-
-
-[Science communication](https://owenparsons.github.io/comms/)
-======
-* [Scientific advisor for *The Party*, Guardian VR](https://www.theguardian.com/gnm-press-office/2017/oct/09/guardian-launches-the-party-a-virtual-experience-of-autism)
-* [Scientific consultant for the film *The Reason I Jump*](https://www.sundance.org/projects/the-reason-i-jump)
-* [News editor, Department of Psychiatry, University of Cambridge](https://www.psychiatry.cam.ac.uk/blog/category/news/)
-* [Podcast producer for the Cambridge University Science and Policy Exchange](http://www.cuspe.org/)
 
