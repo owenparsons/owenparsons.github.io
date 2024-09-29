@@ -47,48 +47,1135 @@
             margin-top: -100px;
             z-index: 1;
         }
+        table {
+            width: 70%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 16px;
+            text-align: right; /* Right-align numeric data */
+            font-family: Arial, sans-serif;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+            text-align: center; /* Center-align headers */
+        }
+
+        td {
+            background-color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        caption {
+            caption-side: top;
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        a {
+              color: #4A4A4A;
+              text-decoration: underline;
+          }
+
+
+          a:visited {
+              color: #6E6E6E;
+              text-decoration: underline;
+          }
+
+
+          a:hover {
+              color: #9E9E9E;
+              text-decoration: underline;
+          }
+
+
+          a:active {
+              color: #3A3A3A;
+
+          }
     </style>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <h1>Exploring Feature Co-Occurrence Networks with SAEs</h1>
-    <p class="date">September 28, 2024</p>
+    <p class="date">September 29, 2024</p>
     <div class="image-container">
-        <img src="header_image.jpg" alt="Header" class="header-image">
+        <img src="./figures/header_image.jpg" alt="Header" class="header-image">
     </div>
     <div class="content">
 
-      <h1>Introduction</h1>
+      <h2 id="introduction">Introduction</h2>
+      <p>Over the past few months, I’ve been doing a fairly deep dive into AI
+      safety and alignment—a topic that’s become harder to ignore as machine
+      learning continues to advance. During the time I’ve spent working as an
+      ML scientist, I’ve come to realise more and more that, while building
+      smarter and more capable models is exciting, understanding the risks and
+      ensuring these models behave as expected is just as crucial. This led me
+      to enroll in the <a
+      href="https://aisafetyfundamentals.com/alignment/">BlueDot AI Alignment
+      course</a>, which offered a really good overview of the key challenges
+      we face in making AI systems aligned with human values.</p>
+      <p>One topic that really hooked me is mechanistic
+      interpretability—basically, trying to reverse-engineer neural networks
+      to figure out <em>how</em> they’re thinking (or at least processing
+      information). In particular, I found Chris Olah and other’s article, <a
+      href="https://distill.pub/2020/circuits/zoom-in/"><em>Zoom In</em></a>,
+      really engaging. The piece presents an approach to mechanistic
+      interpretability by breaking down individual neurons and circuits within
+      neural networks to uncover the roles they play. By meticulously zooming
+      in, Olah and his team demonstrate how different components contribute to
+      the broader functioning of large models. Coming from a neuroscience
+      background, this approach felt oddly familiar.</p>
+      <p>Neuroscience has a long history of “zooming in” to understand how
+      individual components contribute to the whole system. <a
+      href="https://www.cambridge.org/core/journals/science-in-context/article/abs/birth-of-information-in-the-brain-edgar-adrian-and-the-vacuum-tube/ECFA99539DFE6DCA9BDE6A827AEC2EEF">Edgar
+      Adrian’s pioneering single-unit recordings in the 1920s</a> demonstrated
+      how single neurons in sensory systems encode information by varying
+      their firing rates. In the 1950s, <a
+      href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3424716/">Hodgkin and
+      Huxley mapped the electrical behavior of individual neurons in their
+      famous squid axon experiments</a>, revealing the ionic mechanisms behind
+      action potentials. <a
+      href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1359523/">David Hubel
+      and Torsten Wiesel’s work in the 1960s uncovered how neurons in the
+      visual cortex respond to specific features</a>, such as edges and
+      movement, helping us understand how sensory information is processed in
+      the brain. And, of course, <a
+      href="https://www.sciencedirect.com/science/article/abs/pii/0014488676900558">John
+      O’Keefe’s discovery of place cells in the hippocampus showed how certain
+      neurons represent spatial information</a>, laying the groundwork for our
+      understanding of memory and navigation (I’ve had the pleasure of
+      chatting to John O’Keefe over a beer and he’s one of the nicest
+      researchers I’ve met.)</p>
+      <p>As much as I loved the <em>Zoom In</em> paper, a niggling thought
+      kept bubbling up in the back of my mind while I was reading it: do we
+      really want to keep zooming in? While it’s clear that the insights
+      gained from this granular approach are invaluable, I think for
+      mechanistic interpretability to have a big impact research will need to
+      zoom back out a little. After all, understanding the bigger picture can
+      be just as crucial as dissecting the details. The intricate details of
+      both AI systems and the brain can show us new insights when we step back
+      and look at the bigger picture, reminding us that while diving deep into
+      specifics is great, it’s also important to appreciate how everything
+      fits together.</p>
+      <p>These thoughts formed the foundation of a short research project that
+      I’ll present here, which serves as the final assignment for the AI
+      Alignment course. However, my personal motivations extend beyond merely
+      completing coursework:</p>
+      <ol type="1">
+      <li>I aimed to up-skill in this area, learning to use relevant libraries
+      and gaining a deeper understanding of working with sparse auto-encoders
+      (SAEs).</li>
+      <li>I wanted to explore an interesting question that bridges my
+      background in neuroscience with the cutting-edge field of AI
+      interpretability.</li>
+      <li>I was curious to see if (somewhat) meaningful exploratory
+      mechanistic interpretability work could be done on a shoestring budget
+      (I ended up spending under $10 on T4 GPU!)</li>
+      </ol>
+      <p>I also had a couple of external motivations with this project:</p>
+      <ol type="1">
+      <li>It
+      could provide a useful resource for others starting to look into
+      mechanistic interpretability.</li>
+      <li>There could be a (small) chance that
+      some of the approaches I explore here could provide some baseline ideas
+      that could be taken forward and scaled up by others.</li>
+      </ol>
+      <p>Before we dive in, I want to emphasise that I’m relatively new to the
+      field of mechanistic interpretability. Everything presented in this post
+      should be taken with a healthy dose of skepticism. I welcome feedback
+      and constructive criticism—if you spot any incorrect assumptions,
+      misunderstandings, or anything that doesn’t quite add up, please don’t
+      hesitate to let me know.</p>
+      <p>I want to share my thoughts openly, but please don’t mistake that for
+      overconfidence. When I say something like <em>“for mechanistic
+      interpretability to really make an impact, we might need to zoom back
+      out,”</em> I recognise that I could be way off - I’ve just dipped my
+      toes in the water compared to the researchers in this field. But if I
+      can’t share my opinions on a blog post on the internet, where else can I share them? So, just a
+      heads-up: <em>take everything in this article with a grain of salt; I
+      might be totally wrong, and I get that!</em></p>
+      <h2 id="tldr">TL;DR</h2>
+      <p>This post has a reading time ~30 minutes. I’d like it also to be
+      accessible in a shorter period of time, so here’s some suggestions for
+      how to skip through depending on your background and what you’re
+      interested in.</p>
+      <p> <strong>Strong MI background, just want to get the gist</strong>:</p>
+      <ul>
+      <li>Read the <a href="#key-questions">‘Key questions’</a>, <a href="#models">‘Models’</a> and <a href="#task">‘Task’</a> sections to set the
+      context.</li>
+      <li>Skim the <a href="#feature-co-occurrence">‘Feature co-occurrence’</a>, <a href="#network-based-clustering-of-features-by-co-activations">‘Network based clustering of features by co-activations’</a> and
+        <a href="#feature-steering-and-ablation">‘Feature steering and ablation’</a> sections for the main methods.</li>
+     <li>Read the <a href="#steering-multiple-features">‘Steering multiple features’</a>
+    and <a href="#centrality-and-feature-importance">‘Centrality and feature importance’</a> section for the main
+    results.</li>
+      </ul>
+      <p><strong>New to MI, want to learn something but don’t really care
+      about the results:</strong> </p>
+      <ul>
+      <li>Read the <a href="#tools">‘Tools’</a> section for some ways to
+      start exploring MI.</li>
+      <li>Read the <a href="#feature-co-occurrence">‘Feature co-occurrence’</a> and <a href="#feature-steering-and-ablation">‘Feature
+      steering and ablation’</a> sections for some information about attribution,
+      steering and ablation.</li>
+    </ul>
+      <p><strong>Just curious about Network Analysis:</strong></p>
+      <ul>
+        <li>Read the
+      <a href="#network-based-clustering-of-features-by-co-activations">‘Network based clustering of features by co-activations’</a>, <a href="#metrics-across-feature-clusters">‘Metrics
+      across feature clusters’</a> and <a href="#centrality-and-feature-importance">‘Centrality and feature importance’</a>
+      sections.</li></ul>
+      <p><strong>New to MI, want to learn something and want to find out about
+      the results:</strong></p>
+      <ul><li>Read everything!</li></ul>
+      <h2 id="experiments-and-findings">Experiments and findings</h2>
+      <h3 id="key-questions">Key questions</h3>
+      <p>This was a very exploratory project and so I decided not to present
+      it in the standard academic way where methods and results are neatly
+      compartmentalised. Instead, they’ll very much be interwoven through the
+      post.</p>
+      <p>I aimed to write this up in a way that shows how certain discoveries
+      led to new questions, and how different approaches emerged from these
+      newly arising questions. Hopefully this format allows me to share not
+      just the outcomes, but also the thought processes and insights that
+      shaped the project.</p>
+      <p>While acknowledging the exploratory nature of this work, I embarked
+      on this project with several key questions in mind: 1. Can we uncover
+      structure between sparse autoencoder (SAE) features by examining
+      co-occurrence patterns, specifically through correlations between
+      feature activations? 2. How can we leverage ablation and SAE feature
+      steering techniques to gain insights into the dependencies between
+      co-occurring features, or alternatively, to understand how they might
+      contribute independently in similar ways? 3. To what extent can we apply
+      network analysis approaches to assess feature importance and elucidate
+      the relationships between features?</p>
+      <h3 id="tools">Tools</h3>
+      <p>This project will focus on analysis language models using sparse
+      auto-encoders (SAEs), a technique that has recently gained popularity in
+      the field of mechanistic interpretability. SAEs offer a promising
+      approach to uncovering the internal workings of these complex,
+      hard-to-interpret systems. For a good introduction to SAEs, I recommend
+      <a
+      href="https://transformer-circuits.pub/2023/monosemantic-features">reading
+      this article</a> and having a look at the <a
+      href="https://transformer-circuits.pub/">Transformer Circuits Thread</a>
+      in general. It’s also worth looking into <a
+      href="https://transformer-circuits.pub/2022/toy_model/index.html">polysemanticity
+      and superposition</a>, if you’re not already familiar with these, to
+      understand the problem that SAEs are trying to solve.</p>
+      <p>Very briefly, sparse auto-encoders are neural networks trained to
+      reconstruct their input while enforcing sparsity in their hidden layer.
+      This sparsity constraint often results in the network learning more
+      interpretable and disentangled representations of the input data. In the
+      context of language models, SAEs can help us identify and understand
+      specific features or concepts that the model has learned.</p>
+      <p>I used a few different tools from the Open Source Mechanistic
+      Interpretability community:</p>
+      <ol type="1">
+      <li><a href="https://github.com/jbloomAus/SAELens">SAE Lens</a>: A
+      toolkit specifically designed for working with sparse
+      auto-encoders.</li>
+      <li><a
+      href="https://github.com/TransformerLensOrg/TransformerLens">TransformerLens</a>:
+      A library for the analysis of transformer-based language models.</li>
+      <li><a href="https://www.neuronpedia.org/">Neuronpedia</a>: A valuable
+      resource for understanding and categorising SAE features.</li>
+      </ol>
+      <p>It’s worth noting that some of the functionality in my code was
+      inspired by and adapted from one of the <a
+      href="https://github.com/jbloomAus/SAELens/blob/main/tutorials/tutorial_2_0.ipynb">SAE
+      Lens tutorials</a>. This tutorial provided me with a good foundation for
+      working with SAEs and I highly recommend it! </p>
+      <h3 id="models">Models</h3>
+      <p>For this project, I chose to work with GPT-2 Small as the language
+      model. The specific SAE model I used was Joseph Blooms
+      gpt2-small-res-jb. This is an open-source SAE that covers all residual
+      stream layers of GPT-2 Small, but I focused my analysis on layer 7
+      (blocks.7.hook_resid_pre). For more information on these SAEs, you can
+      check out this post on <a
+      href="https://www.lesswrong.com/posts/f9EgfLSurAiqRJySD/open-source-sparse-autoencoders-for-all-residual-stream">LessWrong</a>.</p>
+      <h3 id="task">Task</h3>
+      <p>I wanted a fairly simple task to assess model performance across a
+      set of related prompts. You could definitely explore feature
+      co-occurrence across a large corpus of very general text. This Could
+      potentially give you a lot more information about feature relationships
+      in the network as a whole, but there would be a lot more sparsity
+      observed. By confining it to a task with relatively little variance, I
+      can focus on a smaller set of features.</p>
+      <p>The task was based on the example presented in <a
+      href="https://www.alignmentforum.org/posts/iGuwZTHWb6DFY3sKB/fact-finding-attempting-to-reverse-engineer-factual-recall">work
+      by Neel Nanda and others</a>, where a one-shot prompt of the form “Fact:
+      Michael Jordan plays the sport of” was used as an input to the model and
+      then evaluating the performance of the model in predicting the ‘correct’
+      token (in this case, “basketball”). The dataset I used was deliberately
+      small (so that I could generate experiment outputs fairly quickly and
+      cheaply) and was generated from <a
+      href="https://raw.githubusercontent.com/ali-ce/datasets/master/Most-paid-athletes/Athletes.csv">a
+      list of the best paid athletes</a>.</p>
+      <h3 id="task-performance">Task performance</h3>
+      <p>The first thing I wanted to do was see how the model could perform on
+      the task. There are a few different metrics that can be used to score
+      performance. These are:</p>
+      <ul><li><strong>Correct token rank:</strong> The rank of the correct
+      answer token relative to other tokens based on the model logits. Note,
+      there were 3 data points with ranks greater than 10 (15, 79 and 221
+      respectively). These were removed from the plot because they made it
+      hard to read (and I didn’t want to change the scale to log because it’s
+      harder to intuitively interpret the log of the rank).</li>
+      <li><strong>Correct token logit:</strong> The logit value for the correct token. I’ve plotted this for now
+      for completeness, but I don’t think it’s a good measure as it doesn’t
+      really make sense to compare logits from different prompts.</li>
+      <li><strong>Correct token probability:</strong> The model’s predicted probability of the correct
+      token.</li>
+      <li><strong>Top 10 logits entropy:</strong> The entropy calculated just using the
+      top 10 logits from the model. I thought this could be informative to
+      understand when the model doesn’t have a strong preference towards a
+      given answer rather than just being incorrect (and potentially being
+      very confident in the incorrect answer).</li>
 
-      <p>Over the past few months, I’ve been doing a fairly deep dive into AI safety and alignment—a topic that's become harder to ignore as machine learning continues to advance. During the time I've spent working as an ML scientist, I've come to realise more and more that, while building smarter and more capable models is exciting, understanding the risks and ensuring these models behave as expected is just as crucial. This led me to enroll in the BlueDot AI Alignment course, which offered a really good overview of the key challenges we face in making AI systems aligned with human values (I'll mention a bit more about the course later!)</p>
+      <p>Let’s plot those and have a look. If you want to enlarge any plots on
+      this post, just click on them!</p>
 
-<p>One topic that really hooked me is mechanistic interpretability—basically, trying to reverse-engineer neural networks to figure out <em>how</em> they’re thinking (or at least processing information). In particular, I found Chris Olah and others' article, <em>Zoom In</em> [1], really engaging. The piece presents an approach to mechanistic interpretability by breaking down individual neurons and circuits within neural networks to uncover the roles they play. By meticulously zooming in, Olah and his team demonstrate how different components contribute to the broader functioning of large models. Coming from a neuroscience background, this approach felt oddly familiar.</p>
+      <img src="./figures/metrics/baseline_scores_multi.png"
+      alt="Baseline scores" class="in-text-image" onclick="showImage('./figures/metrics/baseline_scores_multi.png')">
 
-<p>Neuroscience has a long history of "zooming in" to understand how individual components contribute to the whole system. Edgar Adrian’s pioneering single-unit recordings in the 1920s demonstrated how single neurons in sensory systems encode information by varying their firing rates. In the 1950s, Hodgkin and Huxley mapped the electrical behavior of individual neurons in their famous squid axon experiments, revealing the ionic mechanisms behind action potentials. David Hubel and Torsten Wiesel’s work in the 1960s uncovered how neurons in the visual cortex respond to specific features, such as edges and movement, helping us understand how sensory information is processed in the brain. And, of course, John O’Keefe’s discovery of place cells in the hippocampus showed how certain neurons represent spatial information, laying the groundwork for our understanding of memory and navigation (I've had the pleasure of chatting to John O'Keefe over a beer and he's one of the nicest researchers I've met!)</p>
+      <p>The correct token probabilities weren’t that great, with an average
+      value of around 0.15. For results in the rest of the project, I just
+      focused on prompts where the correct token rank was 0 (the correct
+      answer was the most likely). I plotted the metrics again only for
+      examples where the correct token rank was 0 (which was 57% of the
+      dataset).</p>
 
-  <img src="test_plot.png" alt="Thumbnail Image" class="in-text-image" onclick="showImage('test_plot.png')">
+      <img src="./figures/metrics/baseline_scores_multi_rank_0.png"
+      alt="Baseline scores for rank 0 prompts" class="in-text-image" onclick="showImage('./figures/metrics/baseline_scores_multi_rank_0.png')">
 
-<p>As much as I loved the <em>Zoom In</em> paper, a niggling thought kept bubbling up in the back of my mind while I was reading it: do we really want to keep zooming in? While it’s clear that the insights gained from this granular approach are invaluable, I think for mechanistic interpretability to have a big impact, research will need to zoom back out a little. After all, understanding the bigger picture can be just as crucial as dissecting the details. The intricate details of both AI systems and the brain can show us new insights when we step back and look at the bigger picture, reminding us that while diving deep into specifics is great, it’s also important to appreciate how everything fits together.</p>
+      <p><strong>Disclaimer:</strong> <em>I realised right at the end of this
+      project that the possible answers for the correct sport included both
+      ‘football’ and ‘soccer’. I’m a fairly embarrassed, both from the
+      perspective of someone who prides themselves for having good data
+      science abilities and as a Brit, that I didn’t spot this earlier but I
+      don’t think it will make much of a difference and language models are
+      generally fairly US-centric anyway.</em></p>
+      <h3 id="feature-co-occurrence">Feature co-occurrence</h3>
+      <p>Okay, so the task is good to go - now to start looking at the
+      interesting stuff! The first thing we need to do to determine if there’s
+      any structure in the feature co-occurrence is, unsurprisingly, to run a
+      load of prompts through the model and record which features are involved
+      in helping the model to decide what the next token in the sequence is.
+      One way to do this would be to use activations in the feature space. The
+      approach I decided to go was to look at <em>feature attribution</em>,
+      which is a way of representing how much a feature helps to steer the
+      model towards the correct answer rather than just activating for
+      concepts that occur in the prompt.</p>
+      <p>
+      If we go back to the previous example we looked at: “Fact: Michael Jordan plays the sport of,” then we can calculate attribution scores for all of the features that occur in the feature space of the SAE. For a given token in the input prompt, we can select a token that represents a correct answer and one that represents an incorrect answer, and then compare the difference in logits for the two tokens.
+  </p>
 
-<p>These thoughts formed the foundation of a short research project that I'll present here, which serves as the final assignment for the AI Alignment course. However, my motivations extend beyond merely completing coursework:</p>
+  <div style="text-align: center; margin: 10px 0;">
+      <span class="math display">attr<sub><em>i</em></sub> := <em>a</em><sub><em>i</em></sub><strong>d</strong><sub><em>i</em></sub> ⋅ ∇<sub><em>x</em></sub>ℒ,</span>
+  </div>
 
-<ol>
-  <li>I aimed to upskill in this area, learning to use relevant libraries and gaining a deeper understanding of working with self-attention encoders (SAEs).</li>
-  <li>I wanted to explore an interesting question that bridges my background in neuroscience with the cutting-edge field of AI interpretability.</li>
-  <li>I was curious to see if meaningful exploratory mechanistic interpretability work could be done on a shoestring budget. (Spoiler: I spent under $10 and used only a T4 GPU on Google Colab!)</li>
-</ol>
+  <p>
+      where <span class="math inline"><em>a</em><sub><em>i</em></sub></span> represents the activation of feature <span class="math inline"><em>i</em></span>,
+      <span class="math inline"><em>d</em><sub><em>i</em></sub></span> is the dictionary (decoder) vector for feature <span class="math inline"><em>i</em></span> in the SAE,
+      and <span class="math inline">∇<sub><em>x</em></sub>ℒ</span> is the gradient of the logit difference between the correct and incorrect tokens.
+      Using the logit difference between two tokens allows for features that strongly associate with the correct answer to be identified.
+  </p>
+      <p>Once the attribution values have been calculated for all features in
+      the SAE across all the examples in the dataset, then feature
+      co-occurrence can be capture by calculating the correlation of these
+      attribution values between all features. For this part, I actually just
+      considered the intersection of features (i.e. features that had non-zero
+      attribution values for all 100 prompts in the dataset). This kept the
+      set of features relatively small, with correlations between 175 features
+      being calculated.</p>
+      <p>We can visualise the feature correlations by plotting these as a
+      heatmap. Let’s have a look!</p>
 
-<p>Before we dive in, I want to emphasize that I'm relatively new to the field of mechanistic interpretability. Everything presented in this post should be taken with a healthy dose of skepticism. I welcome feedback and constructive criticism—if you spot any incorrect assumptions, misunderstandings, or anything that doesn't quite add up, please don't hesitate to let me know.</p>
+      <img src="./figures/clustering/full_feature_heatmap_unsorted.png"
+      alt="Feature correlation heatmap" class="in-text-image" onclick="showImage('./figures/clustering/full_feature_heatmap_unsorted.png')">
 
+      <p>This probably looks like a horrible mess at first glance, but I was
+      actually quite excited by this. The fact that there’s a decent
+      sprinkling of dark red and blue pixels indicates that there’s some
+      strong correlations between features for the set of prompts that we
+      looked at.</p>
+      <p>It’s important to remember, that if this was all just random noise
+      there’s a good chance that some strong correlations will appear high
+      purely due to statistical chance. This happens because of random
+      fluctuations, and with ~30,000 pairwise correlations the likelihood of
+      false positives is pretty high. However, when sparsity is higher the
+      chance of false positives in correlations decreases. So a concern of
+      mine was that I wouldn’t see any strong correlations at all. This
+      doesn’t mean that the correlations above definitely aren’t
+      false-positives, so let’s keep going and see if we can find any
+      meaningful structure in these correlations.</p>
+      <h3 id="network-based-clustering-of-features-by-co-activations">Network
+      based clustering of features by co-activations</h3>
+      <p>Looking at a correlation matrix like the one above can be pretty
+      overwhelming, especially when you have a high number of variables or
+      features that you’re comparing. One good way to make sense of all the
+      correlations is to transform them into a network! This approach can help
+      to turn a messy correlation matrix into an intuitive visual
+      representation and can help to find structure in the data. Each feature
+      becomes a node in the network, and correlations between features are
+      represented by weighted edges connecting these nodes.</p>
+      <p>A nice real-world example to think about is the stock market. Imagine
+      that you analyse correlations between stocks in the S&amp;P 500. You
+      could apply network analysis to a correlation matrix of daily returns,
+      then create a map of market relationships. This network would hopefully
+      give you clusters of tightly connected stocks which could potentially be
+      tied together by a common attribute (such as representing industry
+      sectors ). The idea with looking at feature correlations is similar, we
+      can hopefully find clusters of highly associated features that work
+      together to help the model in the specific task it’s been asked to
+      do.</p>
+      <p>I built a graph from the feature attribution correlations, adding
+      edges where correlation values were &gt;= 0.7. This produces a graph
+      where highly correlated features are connected, and the correlation
+      strength is reflected in the edge weight.</p>
+      <p>I then used the <a
+      href="https://networkx.org/documentation/networkx-2.4/reference/algorithms/generated/networkx.algorithms.community.modularity_max.greedy_modularity_communities.html">Greedy
+      Modularity Maximisation algorithm</a> from the <code>networkx</code>
+      library to detect communities (clusters of nodes) in the graph. The key
+      idea behind the modularity maximisation algorithm is to group nodes in
+      such a way that (i) there are many edges within the same group (high
+      internal connectivity) and (ii) there are few edges between different
+      groups (low external connectivity). The greedy modularity algorithm
+      works by starting with each node in its own community before iteratively
+      merging communities that increase the overall modularity score (a metric
+      that measures the quality of the clustering).</p>
+      <p>Once we’re clustered our features, we can group the features by their
+      clusters and plot the heatmap of correlations again.</p>
 
+      <img src="./figures/clustering/full_feature_heatmap_sorted.png"
+      alt="Sorted feature correlation heatmap" class="in-text-image" onclick="showImage('./figures/clustering/full_feature_heatmap_sorted.png')">
 
+      <p>Looking at this version feature correlation heatmap, you can see how
+      sorting by clusters brings out the data’s structure. The blocks of
+      brighter colours along the diagonal show us groups of features that tend
+      to have similar patterns of attribution across the different
+      prompts.</p>
+      <p>The heatmap also illustrates the size of the different clusters that
+      were identified by the method. As we move along the diagonal from
+      top-left to bottom-right, we can see that the blocks get smaller and
+      smaller. If you look at the cluster assignments, you can see that there
+      are a relatively small number of larger clusters and then lots and lots
+      of clusters with only one or two features assigned.</p>
+      <p>I decided to just focus on larger clusters, so filtered out clusters
+      that had fewer than 10 features assigned to them. This left me with 4
+      main clusters to consider. We can visualise this again as a heatmap to
+      get a clearer picture of those clusters and also plot the absolute
+      correlations as well to make the magnitude of associations between the
+      different features clearer.</p>
 
+      <img src="./figures/clustering/cluster_grouped_heatmap_combined.png"
+      alt="Subset clusters heatmap" class="in-text-image" onclick="showImage('./figures/clustering/cluster_grouped_heatmap_combined.png')">
 
+      <p>Since the data has been modelled as a network, let’s try to visualise
+      the network to see what it looks like.</p>
 
-    <img src="test_plot_2.png" alt="Thumbnail Image" class="in-text-image" onclick="showImage('test_plot_2.png')">
+      <img src="./figures/clustering/network_graph_subset.png"
+      alt="Network graph" class="in-text-image" onclick="showImage('./figures/clustering/network_graph_subset.png')">
 
+      <p>The visualisation allows us to easily spot isolated nodes within the
+      network, we can see that feature <a
+      href="https://www.neuronpedia.org/gpt2-small/7-res-jb/16860">16860</a>
+      from cluster 1 looks fairly isolated. I’ll create links to the relevant
+      Neuronpedia page for any features that I mention explicitly. If you
+      haven’t used Neuronpedia before, I’ll touch on this in a bit more detail
+      later on in the post.) This feature is described as being related to
+      “sports-related terms and activities” which makes sense given the nature
+      of the task that’s being considered. I won’t spend long interpreting
+      properties of the network from this plot, because I think network
+      visualisations should be taken with a pinch of salt. Node spacing in
+      <code>networkx</code> is supposed to represent strength of connections
+      to an extent, with densely packed nodes having strong associations. This
+      suggests that features in clusters 1 and 3 typically have very high
+      correlations between them. However, the plotting algorithm also takes
+      into consideration the aesthetics and readability of the layout so let’s
+      move on to examine the cluster properties empirically. </p>
+      <h3 id="metrics-across-feature-clusters">Metrics across feature clusters</h3>
+      <p>It’s useful to calculate metrics that can help us to understand
+      properties of the network. In the stock market example we discussed
+      earlier, these could be stocks that have far-reaching influence across
+      multiple sectors, such as major tech giants or influential financial
+      institutions. Centrality in network analysis can help to identify the
+      most important or influential nodes in a graph, similar to finding the
+      far reaching stocks in the stock market. There are different metrics for
+      centrality whose suitability depends on exactly what information you’re
+      trying to extract. I calculated 4 common metrics of centrality:</p>
+      <ol type="1">
+      <li><p>Degree Centrality: <em>Counts the number of connections a node
+      has. In a feature network, a high degree centrality means a feature
+      correlates strongly with many others.</em></p></li>
+      <li><p>Betweenness Centrality: <em>Measures how often a node bridges
+      other nodes on the shortest paths. High betweenness nodes control
+      information flow, acting as connectors between different clusters or
+      domains.</em></p></li>
+      <li><p>Closeness Centrality: <em>Indicates how close a node is to others
+      by measuring the sum of shortest path distances. A high score shows a
+      feature that can quickly influence or be influenced by
+      others.</em></p></li>
+      <li><p>Eigenvector Centrality: <em>Evaluates a node’s influence based on
+      the importance of its neighbours. Features connected to other important
+      features score highly.</em></p></li>
+      </ol>
+      <p>Once these were calculated for all the features across our 4
+      clusters, I had a look at how much they correlated with one another as
+      well as with other metrics calculated on the feature attribution
+      values.</p>
 
-<p>I want to share my thoughts openly, but please don’t mistake that for overconfidence. When I say something like <em>"for mechanistic interpretability to really make an impact, we might need to zoom back out,"</em> I recognize that I could be way off—I've just scratched the surface compared to the amazing researchers in this field. But hey, if I can’t share my opinions here, where else can I? So, just a heads-up: <em>take everything in this article with a grain of salt; I might be totally wrong, and I get that!</em></p>
+      <img src="./figures/cluster_metrics/metric_correlation_heatmap.png"
+      alt="Correlations between network metrics" class="in-text-image" onclick="showImage('./figures/cluster_metrics/metric_correlation_heatmap.png')">
+
+      <p>The labels for the 4 centrality measures should be self explanatory.
+      <code>abs_corr_activation</code> represents the absolute correlation
+      value of a given features attribution score with attribution scores from
+      other features. <code>max_activation</code> is the maximum attribution
+      score, <code>summed_activation</code> is the summed attribution score,
+      <code>abs_summed_activation</code> is the absolute summed attribution
+      score and <code>std_activation</code> is the standard deviation of
+      attribution scores for a given feature (note: I’m aware that labelling
+      these as ‘activations’ is slightly misleading/confusing - I’ll try to go
+      back and update the labels then regenerate the plots if I have time).
+      <code>gen_max_activation</code> is the maximum activation found for a
+      given feature using a independent, generic corpus of text (taken from
+      the <a href="https://pile.eleuther.ai/">pile dataset</a>).</p>
+      <p>You can see that the centrality metrics are highly correlated and the
+      attribution metrics are highly correlated, with fairly modest
+      correlation between the two groups of metrics.
+      <code>gen_max_activation</code> seems to have weak correlation with all
+      other metrics (more on this later).</p>
+      <p>I then wanted to look at how these metrics were distributed across
+      the different clusters, so I plotted some violin plots to visualise
+      this. Let’s have a look at the centrality measures.</p>
+
+      <img
+      src="./figures/cluster_metrics/distributions_for_centrality_metrics_multi.png"
+      alt="Distributions for centrality metrics" class="in-text-image" onclick="showImage('./figures/cluster_metrics/distributions_for_centrality_metrics_multi.png')">
+
+      <p>You can see some trends across the 4 metrics. Centrality tends to be
+      highest in cluster 1 and descend gradually across each cluster, with
+      cluster 4 having the lowest scores. Let’s also do the same for the
+      attribution metrics.</p>
+      <img
+      src="./figures/cluster_metrics/distributions_for_activation_metrics_multi.png"
+      alt="Distributions for attribution metrics" class="in-text-image" onclick="showImage('./figures/cluster_metrics/distributions_for_activation_metrics_multi.png')">
+      <p>The pattern for <code>abs_corr_activation</code> matches the pattern
+      seen for the centrality metrics, which makes intuitive sense. For the
+      other 3 attribution metrics, cluster 3 scores highest, with cluster 1
+      and 2 scoring similarly and cluster 4 scoring the lowest. As well as
+      eyeballing these, I ran some quick statistical tests to check whether
+      there were significant differences between the metric scores across the
+      clusters. I ran one way ANOVAs and used Bonferroni adjusted p-values to
+      account for potentially inflated false positive rates from running
+      multiple tests (I didn’t do an post-hoc comparisons between specific
+      clusters as I wanted to move on to focus on other parts of the
+      analysis.) These results are summarised below.</p>
+      <table class="center-table">
+      <thead>
+      <tr class="header">
+      <th>Metric</th>
+      <th>F-statistic</th>
+      <th>p-value</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>eigenvector_centrality</td>
+      <td>30.41</td>
+      <td>3.04e-11 ***</td>
+      </tr>
+      <tr class="even">
+      <td>betweenness_centrality</td>
+      <td>2.22</td>
+      <td>0.755</td>
+      </tr>
+      <tr class="odd">
+      <td>closeness_centrality</td>
+      <td>19.69</td>
+      <td>3.85e-08 ***</td>
+      </tr>
+      <tr class="even">
+      <td>degree_centrality</td>
+      <td>10.62</td>
+      <td>8.27e-05 ***</td>
+      </tr>
+      <tr class="odd">
+      <td>abs_corr_activation</td>
+      <td>19.98</td>
+      <td>3.10e-08 ***</td>
+      </tr>
+      <tr class="even">
+      <td>max_activation</td>
+      <td>7.19</td>
+      <td>0.00264 **</td>
+      </tr>
+      <tr class="odd">
+      <td>absolute_summed_activation</td>
+      <td>8.68</td>
+      <td>0.000559 ***</td>
+      </tr>
+      <tr class="even">
+      <td>std_activation</td>
+      <td>8.62</td>
+      <td>0.000597 ***</td>
+      </tr>
+      </tbody>
+      </table>
+      <div style="text-align: center; margin-top: 10px;">
+        <span class="math inline"><em>p</em> &lt; 0.05 : *,<em>p</em> &lt; 0.01 :  * *,<em>p</em> &lt; 0.001 :  *  * *</span></em>
+    </div>
+
+      <h3 id="feature-steering-and-ablation">Feature steering and
+      ablation</h3>
+      <p>One really cool thing you can do with SAEs is to steer or ablate
+      features. Feature steering involves deliberately manipulating
+      activations to influence the output of the model. We can take a feature
+      vector for a given feature or combination of features in the SAE,
+      increase or decrease the feature activations in this direction and then
+      map to the activation space in the language model to either amplify or
+      suppress certain characteristics of the input respectively.</p>
+      <p>Feature ablation is similar but focuses on ‘zeroing out’ specific
+      parts of the activations. Because I wanted to look at 1) the effects of
+      increasing changes to the activation and 2) the effects of perturbing
+      multiple features at once I felt it made more sense to steer features in
+      a negative direction than to just ablate them. Maybe this intuition is
+      incorrect, so please tell me if you think otherwise. It would be
+      interesting to look at simply zeroing out specific features as well to
+      examine aspects of the feature co-occurrence networks but I had to draw
+      the boundaries on this project somewhere and decided not to explore this
+      in the current project. I’ll touch on this more in the final thoughts
+      section at the end of the post.</p>
+      <p>To do the feature steering, I used a base factor of -2.0 to push the
+      steering vectors in the negative direction. This was because I wanted to
+      reduce the effect of given features. When I discuss exploring different
+      ‘steering factors’ or ‘activation strengths’ later on, just remember
+      that these were also multiplied by this base factor to push them in the
+      negative direction.</p>
+      <p>I took feature representations from the SAE latent space and then
+      projected these into the activation space of the language model. To
+      steer the features negatively, I scaled the projected vector by the base
+      factor and an additional steering factor (which varied across
+      experiments). This scaled vector was then subtracted from the original
+      language model activations to reduce the influence of the corresponding
+      features. This can be expressed as:</p>
+      <div style="text-align: center; margin-bottom: 10px;">
+    <span class="math display">
+        <em>A</em><sub>new</sub> = <strong>A</strong> − <em>λ</em>(<strong>P</strong><strong>f</strong>)
+    </span>
+</div>
+<p>
+    Where <span class="math inline"><strong>A</strong></span> is the original activation vector in the language model,
+    <span class="math inline"><strong>P</strong></span> is the projection matrix that maps the feature vector
+    <span class="math inline"><strong>f</strong></span> from the SAE space to the language model activation space,
+    <span class="math inline"><em>λ</em></span> is the combined scaling factor, composed of the base and steering
+    factors, and <span class="math inline"><strong>A</strong><sub>new</sub></span> represents the adjusted activations
+    after negatively steering the features.
+</p>
+      <p>This procedure effectively reduces the influence of specific features
+      in the language model’s activations, allowing for an evaluation of how
+      the model’s performance changes when certain learned representations are
+      suppressed.</p>
+      <p>Okay, that was a fairly dense explanation. So how about an example of
+      some generated text with and without negative feature steering? We can
+      cut off the final word from the famous Mahatma Gandhi quote “Be the
+      change you wish to see in the world”, pass this as a prompt to the
+      language model and see how well the model can predict the correct next
+      token.</p>
+      <p>For this example, the model predicts ‘world’ as the top token with
+      44.37% probability. ‘game’ comes in second with a 7.53% probability and
+      ‘future’ in third with 3.13%. Let’s now try to negative steer the model
+      to see if we can degrade the performance. We can use feature <a
+      href="https://www.neuronpedia.org/gpt2-small/7-res-jb/6747">6747</a>
+      which represents “statements or quotes made by individuals”. Using a
+      steering factor of 30, the performance goes down to 12.26% for the
+      correct token.</p>
+      <p>I won’t use positive feature steering but just for fun, let’s take a
+      cheese-related feature (feature <a
+      href="https://www.neuronpedia.org/gpt2-small/7-res-jb/23208">23208</a>)
+      and positively steer the model in this features direction to see what
+      happens. Sadly, ‘cheese’ doesn’t make it to top spot but it does get
+      into the top 10 tokens alongside ‘bread’, ‘sandwich’ and ‘crust’ which
+      came up from positions 15170, 4612, 9897 and 5134 respectively. ‘world’
+      stays in top spot, but it’s probability drops to a modest 3.95%.</p>
+      <p>Feature steering is a lot of fun to play around with to get an
+      intuition for how certain features can affect model predictions - I
+      definitely suggest having a go if you’re interested in this area</p>
+      <h3 id="assessing-feature-importance-through-feature-steering">Assessing feature importance through feature steering</h3>
+      <p>A big question that I wanted to answer was whether there were
+      significant differences between the clusters in the importance of the
+      features that belonged to each clusters. As we saw above, we can use
+      negative feature steering to get an idea of how important a feature is
+      for the task at hand. The key argument is that negatively steering
+      features that are important to a task will lead to a larger degradation
+      of performance than negatively steering an unimportant feature.</p>
+      <p>The first question I wanted to answer when considering how to asses
+      feature importance through feature steering was: how do I determine the
+      amount a given feature should be steered by? The SAE Lens tutorial
+      suggests using the maximum activation of each specific feature and
+      adjusting the activations in the feature direction relative to that.
+      However, since I was looking at feature importance relative to task
+      specific performance I wasn’t sure if it made sense to use general
+      maximum activations.</p>
+      <p>To start with, I negatively steered all the features across all 4
+      clusters by a factor relative to their global maximum activation
+      (obtained on a non-task specific dataset). I plotted the performance of
+      the model on the task, using both probability (top) and entropy (below)
+      as performance metrics. These are shown as a function of the global
+      maximum activation for features. There were 5 features with fairly
+      extreme maximum activations (yes, 5 not 4 - two of the points are
+      heavily overlapping and appear as one on first glance) so I plotted the
+      graphs with and without those outliers (more on those 5 features
+      later).</p>
+
+      <img
+      src="./figures/activation/global_max_act_prob_with_without_outliers.png"
+      alt="Probability by max activation" class="in-text-image" onclick="showImage('./figures/activation/global_max_act_prob_with_without_outliers.png')">
+
+      <figure>
+      <img
+      src="./figures/activation/global_max_act_entropy_with_without_outliers.png"
+      alt="Entropy by max activation" class="in-text-image" onclick="showImage('./figures/activation/global_max_act_entropy_with_without_outliers.png')">
+      <figcaption aria-hidden="true">Entropy by max activation</figcaption>
+      </figure>
+      <p>You can see a trend of performance degrading as a function of maximum
+      activation. I think there’s probably two possible explanations for this:
+      i) we’re steering the features with higher maximum activations by a
+      larger amount, so we’d obviously expect a larger drop in performance for
+      these features or ii) global maximum activation is highly correlated
+      with feature importance on this task. My instinct says it’s the former,
+      but I guess at this point it’s not 100% clear.</p>
+      <p>The next thing I did is to plot the same values as the previous plot
+      as a function of the task specific attribution values (which I’ll refer
+      to as local maximum activation). To keep it simple, I’ll just focus on
+      probability as a performance metric for now.</p>
+
+      <img
+      src="./figures/activation/local_max_act_prob_single_with_outliers.png"
+      alt="Probability by local max activation" class="in-text-image" onclick="showImage('./figures/activation/local_max_act_prob_single_with_outliers.png')">
+
+      <p>We can see that the 5 features that had really large maximum
+      activations actually have pretty small attributions across all the
+      examples in our task dataset. I think the second explanation above is
+      fairly unlikely in light of this, so let’s assume the first explanation
+      is correct.</p>
+      <p>I also wanted to look at what happens when you do much smaller
+      perturbations to the activations. I did this by taking the minimum
+      feature attribution seen across all features and using these as a fixed
+      steering factor for all features. The performance after this milder
+      steering can be plotted against both the global (general) maximum
+      activation and the local (task-specific) maximum attribution.</p>
+
+      <img src="./figures/activation/min_act_comparison_prob.png"
+      alt="Probability by min steering factor" class="in-text-image" onclick="showImage('./figures/activation/min_act_comparison_prob.png')">
+
+      <p>At this point I saw now strong evidence to indicate that smaller or
+      larger perturbations would be more informative for the question I was
+      trying to answer (if you have any suggestions, or there are any
+      experimental/theoretical results to indicate one way or the other,
+      please let me know). I decided a useful thing to visualise would be the
+      effect on performance over a range of steering factors.</p>
+
+      <img src="./figures/activation/activation_range_probs.png"
+      alt="Probability by range of steering factors" class="in-text-image" onclick="showImage('./figures/activation/activation_range_probs.png')">
+
+      <p>It’s hard to interpret the effect of global maximum activation
+      (general maximum activation) on performance here as data points are
+      relatively sparse for the higher values, but I felt that there was
+      nothing to suggest a strong effect of this metric on performance.
+      Activation shift clearly had a big effect and I decided to consider a
+      set of values for the final experiments that used a low, mid and high
+      value of activation shift (1, 10 and 30 respectively). Now this was
+      established, it was time to move on to the final two (hopefully more
+      interesting) experiments.</p>
+      <h3 id= "steering-multiple-features">Steering multiple features</h3>
+      <p>I think there’s
+      only so much you can learn from perturbing single features and I was
+      particularly interested in exploring interactive effects between
+      features. One way this can be done is through perturbing small sets of
+      features at the same time.</p>
+      <p>I explored the effect of this in two ways:</p>
+      <ul>
+      <li>Between cluster
+      sampling: Explicitly sampling a set of features from different clusters
+      and negatively steering that set of features.</li>
+      <li>Within cluster sampling:
+      Sampling a set of features from the same cluster and negatively steering
+      that set of features.</li>
+      </ul>
+      <p>The hypothesis here was that negatively steering a set of features
+      that were all sampled from one cluster was likely to have a greater
+      impact on task performance than negatively steering a set of features
+      that were sampled across different clusters. The idea behind this
+      hypothesis is that we can see the clusters as functional groups of
+      closely related features and remove the effect of a set of these
+      increase the chance of disturbance to the functional operations handled
+      by the features in that cluster. Going back to the stock market example
+      once more, imagine the stock price of a group of tech companies all
+      tanking at the same time. It’s likely that the effect of that on the
+      overall stock market would be greater than if the same number of stocks
+      tanked across different industries (I’m not an finance expert/economist
+      by any stretch of the imagination and I’m very open to being corrected
+      on this point).</p>
+      <p>I decided to look at the effects of perturbations across sets of 1,
+      2, 3 or 4 features. When sampling features from different clusters, it
+      was important to make sure that the cluster representation was balanced
+      for the perturbed features when the number of perturbed features was n
+      =1, 2 or 3 (they would be default be balanced for n=4). Let’s plot the
+      effect of the number of steered features on task performance for the
+      within cluster and between cluster sampling approach. I’ll show this for
+      the range of steering factors that were mentioned earlier (1, 10 and
+      30). This plot might be a little hard to visualise, so please click on
+      it to enlarge it.</p>
+
+      <img
+      src="./figures/multi/line_average_probs_by_multi_features_all_sf_vals.png"
+      alt="Multi feature by sampling method" class="in-text-image" onclick="showImage('./figures/multi/line_average_probs_by_multi_features_all_sf_vals.png')">
+
+      <p>There’s a nice effect of the number of steered features for the
+      mid-range steering factor (10). This isn’t as visible for the lower and
+      higher steering factors, I’m guessing because they perturb the features
+      by too small or too large an amount respectively. There doesn’t appear
+      to be any difference between the two sampling methods (within cluster
+      sampling and between cluster sampling). I think this can be taken as
+      evidence against the hypothesis proposed above. There’s potentially a
+      small chance that the different clusters have effects in opposing
+      directions, so let’s also look at similar plots but splitting the data
+      by cluster (for the within cluster sampling only).</p>
+
+      <img
+      src="./figures/multi/line_average_probs_by_multi_features_cluster_all_sf_vals.png"
+      alt="Multi feature by cluster" class="in-text-image" onclick="showImage('./figures/multi/line_average_probs_by_multi_features_cluster_all_sf_vals.png')">
+
+      <p>Again, there doesn’t appear to be a difference in the drop of
+      performance between the clusters here. I think this suggests that the
+      hypothesis that perturbing related features will result in a larger drop
+      in performance than perturbing unrelated features is probably false.</p>
+      <p>As a quick sanity check, I wanted to make sure that there were higher
+      correlations of attributions between the sets of features sampled from
+      within clusters than those sampled between clusters. I plotted
+      performance on the task against the average correlation between feature
+      pairs in a set of features (for set sizes 2, 3 and 4) and then split
+      this for with sampling vs between sampling as well as by cluster.</p>
+
+      <img
+      src="./figures/multi/correlation_scatter_plot_all_steer_combined.png"
+      alt="Scatter plot correlation in sets" class="in-text-image" onclick="showImage('./figures/multi/correlation_scatter_plot_all_steer_combined.png')">
+
+      <p>Finally, I was curious as to whether the decrease in performance as
+      the number of perturbed features increased was a robust effect or could
+      simply have been down to the feature vectors for the different features
+      having a lot of overlapping dimensions. This would mean that adding
+      additional features to perturb was essentially just increasing the
+      steering factor. So I tried normalising the steering factor by the
+      number features steered and plotted the data again (note: if you’re
+      wondering why the plots don’t exactly match for the data points where
+      the number of features = 1, it’s because I reran the analysis later and
+      so the feature sampling would have been different).</p>
+
+      <img
+      src="./figures/multi/line_average_probs_by_multi_features_all_sf_vals_normalise.png"
+      alt="Multi feature by sampling method (normalised)" class="in-text-image" onclick="showImage('./figures/multi/line_average_probs_by_multi_features_all_sf_vals_normalise.png')">
+
+      <p>This now actually shows the opposite effect for a steering factor of
+      10, with performance increase as a function of the number of steered
+      features. It’s a little bit hard to interpret, so I’m mainly going to
+      present this for completeness. If I had to hazard a guess, I would say
+      that with normalisation the steering factor for each individual steered
+      factor goes down. So each individual feature is steered by a factor of 4
+      less when the number of steered features is 4 relative to when the
+      number of steered features is 1. I would argue that this implies it’s
+      better to steer a larger number of features by a small amount than a
+      single feature by a large amount. Of course, I have no idea whether this
+      claim is true and the observation is only in a very narrow setting.</p>
+
+      <h3 id= "centrality-and-feature-importance">Centrality and feature importance</h3>
+      <p>The final thing I planned to look at was the effect of the centrality
+      of a feature on the models performance when that feature is negatively
+      steered. The hypothesis here, is that steering features with high
+      centrality will lead to larger changes in performance because impacting
+      those features has a bigger influence on the network of features. If
+      this hypothesis held, it could be seen as evidence that feature
+      centrality of features is an indicator (or at least associated in some
+      way with) feature importance.</p>
+      <p>This can be examined by plotting task performance as a function of
+      the centrality of the steered feature and then seeing whether there’s a
+      correlation between the two. Let’s look at degree centrality and
+      betweenness centrality. I think these two metrics are the most relevant
+      centrality measures. Degree centrality shows us how many other features
+      a given feature correlates with. Betweenness Centrality could be really
+      interesting in this context as it captures how much that feature
+      influences the control of information flow. Let’s start with degree
+      centrality, plotting the results for a range of steering factors and
+      running linear regression analysis to determine if there’s a meaningful
+      relationship (again, using a Bonferroni correction to account for
+      multiple testing).</p>
+
+      <img
+      src="./figures/centrality/average_probs_multi_values_degree_centrality.png"
+      alt="Effect of degree centrality on performance" class="in-text-image" onclick="showImage('./figures/centrality/average_probs_multi_values_degree_centrality.png')">
+
+      <table class="center-table">
+      <colgroup>
+      <col style="width: 27%" />
+      <col style="width: 13%" />
+      <col style="width: 16%" />
+      <col style="width: 16%" />
+      <col style="width: 26%" />
+      </colgroup>
+      <thead>
+      <tr class="header">
+      <th>Experiment Output</th>
+      <th>Slope</th>
+      <th>Intercept</th>
+      <th>R-squared</th>
+      <th>Adjusted P-value</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>0.1</td>
+      <td>-0.004</td>
+      <td>0.348</td>
+      <td>0.029</td>
+      <td>0.185</td>
+      </tr>
+      <tr class="even">
+      <td>1</td>
+      <td>-0.040</td>
+      <td>0.352</td>
+      <td>0.032</td>
+      <td>0.117</td>
+      </tr>
+      <tr class="odd">
+      <td>2</td>
+      <td>-0.083</td>
+      <td>0.355</td>
+      <td>0.034</td>
+      <td>0.105</td>
+      </tr>
+      <tr class="even">
+      <td>5</td>
+      <td>-0.211</td>
+      <td>0.354</td>
+      <td>0.038</td>
+      <td>0.088</td>
+      </tr>
+      <tr class="odd">
+      <td>10</td>
+      <td>-0.317</td>
+      <td>0.311</td>
+      <td>0.031</td>
+      <td>0.122</td>
+      </tr>
+      <tr class="even">
+      <td>20</td>
+      <td>-0.199</td>
+      <td>0.111</td>
+      <td>0.018</td>
+      <td>0.208</td>
+      </tr>
+      <tr class="odd">
+      <td>30</td>
+      <td>-0.008</td>
+      <td>0.015</td>
+      <td>0.000</td>
+      <td>&gt; 0.5</td>
+      </tr>
+      <tr class="even">
+      <td>40</td>
+      <td>-0.008</td>
+      <td>0.004</td>
+      <td>0.003</td>
+      <td>&gt; 0.5</td>
+      </tr>
+      </tbody>
+      </table>
+      <p>There’s not really any effect here for any steering factors. I take
+      this as an indication that the degree centrality, the number of edges a
+      feature has in the network, doesn’t directly relate to the importance of
+      that feature. What about for betweenness centrality?</p>
+
+      <img
+      src="./figures/centrality/average_probs_multi_values_betweenness_centrality.png"
+      alt="Effect of betweenness centrality on performance" class="in-text-image" onclick="showImage('./figures/centrality/average_probs_multi_values_betweenness_centrality.png')">
+
+      <table class="center-table">
+      <colgroup>
+      <col style="width: 27%" />
+      <col style="width: 13%" />
+      <col style="width: 16%" />
+      <col style="width: 16%" />
+      <col style="width: 26%" />
+      </colgroup>
+      <thead>
+      <tr class="header">
+      <th>Experiment Output</th>
+      <th>Slope</th>
+      <th>Intercept</th>
+      <th>R-squared</th>
+      <th>Adjusted P-value</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>0.1</td>
+      <td>-0.051</td>
+      <td>0.348</td>
+      <td>0.097</td>
+      <td>0.098</td>
+      </tr>
+      <tr class="even">
+      <td>1</td>
+      <td>-0.523</td>
+      <td>0.352</td>
+      <td>0.106</td>
+      <td>0.070</td>
+      </tr>
+      <tr class="odd">
+      <td>2</td>
+      <td>-1.083</td>
+      <td>0.355</td>
+      <td>0.117</td>
+      <td>0.049*</td>
+      </tr>
+      <tr class="even">
+      <td>5</td>
+      <td>-2.883</td>
+      <td>0.354</td>
+      <td>0.144</td>
+      <td>0.014*</td>
+      </tr>
+      <tr class="odd">
+      <td>10</td>
+      <td>-4.959</td>
+      <td>0.316</td>
+      <td>0.150</td>
+      <td>0.013*</td>
+      </tr>
+      <tr class="even">
+      <td>20</td>
+      <td>-2.773</td>
+      <td>0.111</td>
+      <td>0.070</td>
+      <td>0.259</td>
+      </tr>
+      <tr class="odd">
+      <td>30</td>
+      <td>-0.324</td>
+      <td>0.017</td>
+      <td>0.007</td>
+      <td>&gt; 0.5</td>
+      </tr>
+      <tr class="even">
+      <td>40</td>
+      <td>-0.050</td>
+      <td>0.004</td>
+      <td>0.002</td>
+      <td>&gt; 0.5</td>
+      </tr>
+      </tbody>
+      </table>
+      <div style="text-align: center; margin-top: 10px;">
+        <span class="math inline"><em>p</em> &lt; 0.05 : *</span></em>
+    </div>
+
+      <p>There are some significant effects here (after controlling for
+      multiple testing) which suggests that betweenness centrality could be
+      associated with feature importance. This is of course a single result
+      from a very small study, so I won’t get too carried away here. This
+      result does make intuitive sense to me though, given that betweenness
+      centrality captures how often a node acts as a bridge along the shortest
+      paths between two other nodes. So features with high betweenness
+      centrality may control information flow within a network, and act as
+      bridges between different functional subgroups of features. This would
+      definitely need to be followed up on, but I feel somewhat vindicated
+      that my hunch may have some merit.</p>
+      <h2 id="final-thoughts-and-future-directions">Final thoughts and future
+      directions</h2>
+      <h3 id="general-thoughts">General thoughts</h3>
+      <p>I’m not going to spend too long writing here. This was an exploratory
+      project and I’ve written it in a less compartmentalised way, so have
+      been commenting on the interpretation of the results along the way.
+      Instead I’ll summarise my main thoughts with a few quick bullet
+      points:</p>
+      <ul>
+      <li>I think that applying network analysis and, in particular, looking
+      at centrality metrics could be a useful way for understanding more about
+      how features interact in a language model. As I’ve said countless times
+      in this post, I’m very new to this field and am very aware there might
+      be some oversights in this project. However, I feel that the results
+      indicate this could be an interesting direction for future
+      research.</li>
+      <li>That said, I definitely don’t think I’ve done enough to show that
+      these results are robust and reproducible. This would be a priority if I
+      end up spending more time on this.</li>
+      <li>Open Source Mechanistic Interpretability is great. There’s some
+      great libraries out there and a really helpful and friendly community
+      that allows people that are new to the field to get stuck in and explore
+      ideas fairly quickly.</li>
+      <li>Mechanistic Interpretability is hard. Really, really hard. That
+      doesn’t mean I don’t think it’s worth pursuing, but I think it’s going
+      to need a lot of resource and effort to get to key breakthroughs that
+      will tangibly impact AI alignment and AI safety.</li>
+      </ul>
+      <h3 id="taking-it-forward">Taking it forward</h3>
+      <p>There’s lots of ways I’d like to play around with this a bit more in
+      the future, as I’ve touched on above. I’ll try to be brief again:</p>
+      <ul>
+      <li>Without a doubt, the first thing I would do if I had some more time
+      to explore this project is to test the robustness of the clustering. I
+      did a very quick evaluation and it looked quite stable but it would be
+      good to empirically test this.</li>
+      <li>I’d like to explore other tasks. The one I used is very simple and I
+      imagine that more complex tasks might have really interesting networks
+      to untangle.</li>
+      <li>It would also be cool to look at more powerful language models.
+      While it’s going to increase complexity due to the models learning a
+      larger number of features, I think it’s likely that the signal would be
+      less noisy than in smaller model like GPT2 Small.</li>
+      </ul>
+      <h3 id="thank-yous">Thank yous</h3>
+      <p>A few quick acknowledgements. A big thank you to <a
+      href="https://aisafetyfundamentals.com/alignment/">BlueDot for running
+      an amazing course</a> and in particular my cohort facilitator <a
+      href="https://www.apartresearch.com/person/alexandra-abbas">Alexandra
+      Abbas</a>. Thanks to <a href="https://www.neelnanda.io/">Neel Nanda</a>
+      for running a great mechanistic interpretability workshop at <a
+      href="https://humanaligned.ai/">HAAISS</a> and <a
+      href="https://www.lesswrong.com/users/joseph-bloom">Joseph Bloom</a> who
+      wrote the tutorial notebook that we went through in the workshop. This
+      was a great introduction to the topic and I highly recommend it if you
+      want to explore this area.</p>
+      <p>I’d also like to thank Joseph Bloom (again), <a
+      href="https://github.com/jbloomAus/SAELens">David Chanin</a> and <a
+      href="https://www.johnnylin.co/">Johnny Lin</a> for answering some of my
+      newbie questions on the <a
+      href="https://www.google.com/url?sa=t&amp;source=web&amp;rct=j&amp;opi=89978449&amp;url=https://join.slack.com/t/opensourcemechanistic/shared_invite/zt-1qosyh8g3-9bF3gamhLNJiqCL_QqLFrA&amp;ved=2ahUKEwjzjNjyn-iIAxVuT0EAHXlZH_UQFnoECAoQAQ&amp;usg=AOvVaw2QeSx_JLasjD8WbONy9ay3">Open
+      Source Mechanistic Interpretability Slack workspace</a>.</p>
+      <p>The header image is Kynance by John Brett, Bequest of Theodore
+      Rousseau Jr., 1973 accessed through the <a
+      href="https://www.metmuseum.org/art/collection/search/435775">Metropolitan
+      Museum of Art’s open access collection</a>.</p>
+      <h3 id="code">Code</h3>
+      <p>The code will be available <a
+      href="https://github.com/owenparsons">on my GitHub</a>. Please let me
+      know if you find any issues or have any questions about it.</p>
+
 
 <div id="imageModal" class="modal">
 <span class="close" onclick="closeModal()">×</span>
