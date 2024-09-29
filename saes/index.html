@@ -767,8 +767,8 @@
       maximum activation for features. There were 5 features with fairly
       extreme maximum activations (yes, 5 not 4 - two of the points are
       heavily overlapping and appear as one on first glance) so I plotted graphs
-      both with and without these outliers (more on those 5 features
-      later).</p>
+      both with and without these outliers (<a href="#appendix-high-maximum-activation-features">more on those 5 features
+      later).</a></p>
 
       <img
       src="./figures/activation/global_max_act_prob_with_without_outliers.png"
@@ -1208,6 +1208,38 @@
       href="https://github.com/owenparsons">on my GitHub</a>. Please let me
       know if you find any issues or have any questions about it.</p>
 
+
+      <h3 id="appendix-high-maximum-activation-features">Quick appendix: High
+      maximum activation features</h2>
+      <p>Earlier in the analysis, I briefly discussed 5 features that had
+      anomalously high maximum activations. I planned to look into these 5
+      features in more detail, but in the end it didn’t really fit in to the
+      main analysis. I’m adding this section just to quickly cover these
+      features, but this is something I’d like to expand on further in the
+      future.</p>
+      <p>Neuronpedia has a nice feature called auto-interp that gives an
+      automatic, language model generated description of what the feature
+      does. It’s not always perfect, but sometimes it gives a good initial
+      insight into a feature. I’ve summarised the auto-interp desctiptions for
+      the 5 anomalous features below.</p>
+      <ul>
+      <li><a
+      href="https://www.neuronpedia.org/gpt2-small/7-res-jb/14968">14968</a> -
+      “phrases related to following or accompanying someone and engaging in
+      conversation”</li>
+      <li><a
+      href="https://www.neuronpedia.org/gpt2-small/7-res-jb/22789">22789</a> -
+      “phrases related to political figures or discussions”</li>
+      <li><a
+      href="https://www.neuronpedia.org/gpt2-small/7-res-jb/3259">3259</a> -
+      “instances related to removing an individual or political figure”</li>
+      <li><a
+      href="https://www.neuronpedia.org/gpt2-small/7-res-jb/21858">21858</a> -
+      “instructions for preheating an oven and using cast-iron cookware”</li>
+      <li><a
+      href="https://www.neuronpedia.org/gpt2-small/7-res-jb/2360">2360</a>
+      -“phrases related to social issues and equality”</li>
+      </ul>
 
 <div id="imageModal" class="modal">
 <span class="close" onclick="closeModal()">×</span>
