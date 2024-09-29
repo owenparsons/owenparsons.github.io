@@ -188,8 +188,9 @@
       specifics is great, it’s also important to appreciate how everything
       fits together.</p>
       <p>These thoughts formed the foundation of a short research project that
-      I’ll present here, which serves as my final project for the AI
-      Alignment course. However, I also had some personal motivations beyond
+      I’ll present here, the specific aims of which I will detail in the
+      main section of this post. While, this research serves as my final project for the AI
+      Alignment course, I also had some personal motivations beyond
       just completing coursework:</p>
       <ol type="1">
       <li>I wanted to up-skill in this area, learning to use relevant libraries
@@ -283,6 +284,17 @@
       <li>To what extent can we apply
       network analysis approaches to assess feature importance and illuminate
       the relationships between features?</li></ol>
+
+      From these key questions, I propose three hypothese that I will evaluate:
+
+      <ul><li>H1: Clustering based on the correlations of feature attribution
+        scores across features will lead to clear clusters of features with
+        distinct properties.</li>
+        <li>H2: Ablating or negatively steering sets of multiple features will
+        lead to increased degredation of model performance when those features are sampled
+      from the same cluster.</li>
+        <li>H3: Centrality metrics of features will be indicative of feature importance.</li></ul>
+
       <h3 id="tools">Tools</h3>
       <p>This project will focus on analysing language models using sparse
       auto-encoders (SAEs), a technique that has recently gained popularity in
@@ -1138,7 +1150,25 @@
       <p>I’m not going to spend too long writing here. Since this was an
         exploratory project, I’ve taken a less structured approach and provided
         interpretations of the results throughout the text.
-      Instead, I’ll summarise my key takeaways with a few quick bullet points:</p>
+      Instead, I’ll summarise my key takeaways with respect to the three hypothese
+    proposed earlier in the post before giving some general thoughts on the overall analysis.</p>
+
+    <ul><li><strong>H1: Clustering based on the correlations of feature attribution
+      scores across features will lead to clear clusters of features with
+      distinct properties.</strong> - I was able to find clusters and these
+      differed across the metrics I evaluated them on. However, I wasn't able to look at
+      the robustness of these clusters within the scope of this project.</li>
+      <li><strong>H2: Ablating or negatively steering sets of multiple features will
+      lead to increased degredation of model performance when those features are sampled
+    from the same cluster.</strong> - The results of my analysis suggested
+  this hypothesis doesn't hold in the context I examined it in. This could perhaps be down to a type of <a href="https://arxiv.org/abs/2307.15771">Hydra Effect</a>
+between features with highly correlated attributions, but further investigation would be needed to explore this.</li>
+      <li><strong>H3: Centrality metrics of features will be indicative of feature importance.</strong> -
+        The results I presented suggested that this hypothesis held for betweenness centrality.
+        I felt that this was the key takeaway result from the analysis and warrants further work.</li></ul>
+<p>
+Additionally, I had some general thoughts on the overall analysis:
+</p>
       <ul>
       <li>I think that applying network analysis and, in particular, looking
       at centrality metrics could be a useful way for understanding more about
