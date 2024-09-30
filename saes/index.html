@@ -301,17 +301,17 @@ Three key questions guided this exploration:
       Building on these questions, we propose three hypotheses that form the backbone of our empirical investigation:
 </p>
       <ul><li><strong>H1: Clustering based on correlations of feature attribution scores
-        will reveal distinct groups of features with shared properties.</strong>
+        will reveal distinct groups of features with shared properties</strong>
          - This hypothesis directly addresses the first key question,
          aiming to uncover structural patterns in SAE features.</li>
         <li><strong>H2: Ablating or negatively steering sets of features sampled
           from the same cluster will lead to greater degradation
-          in model performance compared to random feature sets.</strong>
+          in model performance compared to random feature sets</strong>
            - This hypothesis ties into the second key question,
            exploring how feature dependencies or independent contributions
            manifest in model behavior.</li>
         <li><strong>H3: Network centrality metrics of features will serve as
-          effective indicators of feature importance.</strong>
+          effective indicators of feature importance</strong>
            - This hypothesis aligns with the third key question,
           leveraging network analysis to assess feature significance and
           relationships.</li></ul>
@@ -363,9 +363,8 @@ Three key questions guided this exploration:
       model. The specific SAE model I used was Joseph Blooms
       gpt2-small-res-jb. This is an open-source SAE that covers all residual
       stream layers of GPT-2 Small, but I focused my analysis on layer 7
-      (blocks.7.hook_resid_pre). For more information on these SAEs, you can
-      check out this post on <a
-      href="https://www.lesswrong.com/posts/f9EgfLSurAiqRJySD/open-source-sparse-autoencoders-for-all-residual-stream">LessWrong</a>.</p>
+      (blocks.7.hook_resid_pre). For more information on these SAEs, you can <a
+      href="https://www.lesswrong.com/posts/f9EgfLSurAiqRJySD/open-source-sparse-autoencoders-for-all-residual-stream">check out this post on LessWrong</a>.</p>
       <h3 id="task">Task</h3>
       <p>I wanted a fairly simple task to assess model performance across a
       set of related prompts. You could definitely explore feature
@@ -1184,7 +1183,7 @@ Three key questions guided this exploration:
 
     <ul><li><strong>H1: Clustering based on correlations of feature
       attribution scores will reveal distinct groups of
-      features with shared properties.</strong>
+      features with shared properties</strong>
       - The analysis revealed distinct clusters
       of features based on attribution score correlations.
       These clusters exhibited different characteristics across various metrics.
@@ -1192,7 +1191,7 @@ Three key questions guided this exploration:
       highlighting a potential avenue for future research.</li>
       <li><strong>H2: Ablating or negatively steering sets of features sampled
         from the same cluster will lead to greater degradation in model
-        performance compared to random feature sets.</strong>
+        performance compared to random feature sets</strong>
         - Contrary to my initial expectations,
     negatively steering feature sets from the same cluster did not consistently
     lead to greater performance degradation. This unexpected result suggests
@@ -1204,7 +1203,7 @@ Three key questions guided this exploration:
     understanding feature dependencies.
 </li>
       <li><strong>H3: Network centrality metrics of features
-        will serve as effective indicators of feature importance.</strong> -
+        will serve as effective indicators of feature importance</strong> -
         The results strongly supported the hypothesis that centrality metrics,
         such as betweenness centrality, can serve as effective indicators
         of feature importance. This finding emerges as a key takeaway
