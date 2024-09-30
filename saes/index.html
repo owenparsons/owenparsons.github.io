@@ -117,6 +117,7 @@
     <div class="content">
 
       <h2 id="introduction">Introduction</h2>
+      <h3 id="mechanistic-interpretability-and-neuroscience">Mechanistic Interpretability and Neuroscience</h3>
       <p>Over the past few months, I’ve been doing a fairly deep dive into AI
       safety and alignment—a topic that’s become harder to ignore as machine
       learning continues to advance. During the time I’ve spent working as an
@@ -187,9 +188,17 @@
       and look at the bigger picture, reminding us that while diving deep into
       specifics is great, it’s also important to appreciate how everything
       fits together.</p>
+
+      <h3 id="research-focus">Research Focus</h3>
       <p>These thoughts formed the foundation of a short research project that
-      I’ll present here, the specific aims of which I will detail in the
-      main section of this post. While, this research serves as my final project for the AI
+        I'll present here. While I'll provide more specific details later in
+        this post, the general aim of this project is to explore "zooming out"
+        approaches in mechanistic interpretability. Specifically, I'll focus
+        on investigating how we can gain a broader picture of feature
+        interactions in language models by combining current
+        interpretability techniques with network analysis.</p>
+        <p>
+        While, this research serves as my final project for the AI
       Alignment course, I also had some personal motivations beyond
       just completing coursework:</p>
       <ol type="1">
@@ -226,7 +235,7 @@
       heads-up: <em>take everything in this article with a grain of salt; I'm
         very much open to the idea that I might have this all wrong!</em></p>
       <h2 id="tldr">TL;DR</h2>
-      <p>This post has a reading time of ~30 minutes. I’d like it also to be
+      <p>The rest of this post has a reading time of ~30 minutes. I’d like it to also be
       accessible in a shorter period of time, so here’s some suggestions for
       how to skip through depending on your background and what you’re
       interested in.</p>
@@ -259,18 +268,21 @@
       the results:</strong></p>
       <ul><li>Read everything!</li></ul>
       <h2 id="experiments-and-findings">Experiments and findings</h2>
-      <h3 id="key-questions">Key questions</h3>
-      <p>This was a very exploratory project and so I decided not to present
-      it in the standard academic way where methods and results are neatly
-      compartmentalised. Instead, they’ll very much be interwoven through the
-      post.</p>
-      <p>I aimed to write this up in a way that shows how certain discoveries
-      led to new questions, and how different approaches emerged from these
-      newly arising questions. Hopefully this format allows me to share not
-      just the outcomes, but also the thought processes and insights that
-      shaped the project.</p>
-      <p>While acknowledging the exploratory nature of this work, I embarked
-      on this project with several key questions in mind: </p>
+      <h3 id="key-questions">Project Overview and Key Questions</h3>
+      <p>This project delves into the realm of mechanistic interpretability
+        in machine learning, with a specific focus on analysing relationships between
+        SAE features. While the full context and methodology will unfold
+        throughout this write-up, it's crucial to outline the empirical
+        focus and guiding questions early on.
+        <p>The exploratory nature of this work led me to interweave methods and
+          results, departing from the more traditional compartmentalised structure.
+          This approach allows me to present not just the outcomes, but
+          also the evolving thought processes and insights that shaped the
+          investigation.</p>
+<p>
+Three key questions guided this exploration:
+</p>
+
       <ol type="1">
       <li>Can we uncover
       structure SAE features by examining
@@ -284,15 +296,32 @@
       network analysis approaches to assess feature importance and illuminate
       the relationships between features?</li></ol>
 
-      From these key questions, I propose three hypothese that I will evaluate:
+<h3 id="hypotheses">Hypotheses</h3>
+<p>
+      Building on these questions, we propose three hypotheses that form the backbone of our empirical investigation:
+</p>
+      <ul><li><strong>H1: Clustering based on correlations of feature attribution scores
+        will reveal distinct groups of features with shared properties.</strong>
+         - This hypothesis directly addresses the first key question,
+         aiming to uncover structural patterns in SAE features.</li>
+        <li><strong>H2: Ablating or negatively steering sets of features sampled
+          from the same cluster will lead to greater degradation
+          in model performance compared to random feature sets.</strong>
+           - This hypothesis ties into the second key question,
+           exploring how feature dependencies or independent contributions
+           manifest in model behavior.</li>
+        <li><strong>H3: Network centrality metrics of features will serve as
+          effective indicators of feature importance.</strong>
+           - This hypothesis aligns with the third key question,
+          leveraging network analysis to assess feature significance and
+          relationships.</li></ul>
 
-      <ul><li>H1: Clustering based on the correlations of feature attribution
-        scores across features will lead to clear clusters of features with
-        distinct properties.</li>
-        <li>H2: Ablating or negatively steering sets of multiple features will
-        lead to increased degredation of model performance when those features are sampled
-      from the same cluster.</li>
-        <li>H3: Centrality metrics of features will be indicative of feature importance.</li></ul>
+    <p>
+      As the analysis progresses, I'll explore how these hypotheses
+      hold up against the empirical findings, providing insights
+      into the interactions of language model features and the
+      utility of the experimental techniques applied.
+    </p>
 
       <h3 id="tools">Tools</h3>
       <p>This project will focus on analysing language models using SAEs, a technique that has recently gained popularity in
@@ -1141,32 +1170,53 @@
       initial hypothesis may have some merit.</p>
 
 
-      <h2 id="final-thoughts-and-future-directions">Final thoughts and future
-      directions</h2>
-      <h3 id="general-thoughts">General thoughts</h3>
-      <p>I’m not going to spend too long writing here. Since this was an
-        exploratory project, I’ve taken a less structured approach and provided
-        interpretations of the results throughout the text.
-      Instead, I’ll summarise my key takeaways with respect to the three hypothese
-    proposed earlier in the post before giving some general thoughts on the overall analysis.</p>
+      <h2 id="project-summary">Project Summary</h2>
+      <h3 id="key-takeaways">Key Takeaways</h3>
+      <p>
+        I want to finish by briefly reflecting on the findings and their
+        implications. I won't spend too long writing here since I’ve taken a
+        less structured approach and provided interpretations of the results
+        throughout the posts. While this project had a fairly exploratory
+        nature, it has yielded some interesting insights regarding feature
+        relationships and network analysis in language models.
 
-    <ul><li><strong>H1: Clustering based on the correlations of feature attribution
-      scores across features will lead to clear clusters of features with
-      distinct properties.</strong> - I was able to find clusters and these
-      differed across the metrics I evaluated them on. However, I wasn't able to look at
-      the robustness of these clusters within the scope of this project.</li>
-      <li><strong>H2: Ablating or negatively steering sets of multiple features will
-      lead to increased degredation of model performance when those features are sampled
-    from the same cluster.</strong> - The results of my analysis suggested
-  this hypothesis doesn't hold in the context I examined it in. This could perhaps be down to a type of <a href="https://arxiv.org/abs/2307.15771">Hydra Effect</a>
-between features with highly correlated attributions, but further investigation would be needed to explore this.</li>
-      <li><strong>H3: Centrality metrics of features will be indicative of feature importance.</strong> -
-        The results I presented suggested that this hypothesis held for betweenness centrality.
-        I felt that this was the key takeaway result from the analysis and warrants further work.</li></ul>
+        I’ll start by revisiting the initial hypotheses:</p>
+
+    <ul><li><strong>H1: Clustering based on correlations of feature
+      attribution scores will reveal distinct groups of
+      features with shared properties.</strong>
+      - The analysis revealed distinct clusters
+      of features based on attribution score correlations.
+      These clusters exhibited different characteristics across various metrics.
+      However, the robustness of these clusters requires further investigation,
+      highlighting a potential avenue for future research.</li>
+      <li><strong>H2: Ablating or negatively steering sets of features sampled
+        from the same cluster will lead to greater degradation in model
+        performance compared to random feature sets.</strong>
+        - Contrary to my initial expectations,
+    negatively steering feature sets from the same cluster did not consistently
+    lead to greater performance degradation. This unexpected result suggests
+    more complex interactions between features than I thought, and could possibly
+    be indicative of a
+    <a href="https://arxiv.org/abs/2307.15771">Hydra Effect</a> among highly
+    correlated features.
+    This finding underscores the need for more nuanced approaches to
+    understanding feature dependencies.
+</li>
+      <li><strong>H3: Network centrality metrics of features
+        will serve as effective indicators of feature importance.</strong> -
+        The results strongly supported the hypothesis that centrality metrics,
+        such as betweenness centrality, can serve as effective indicators
+        of feature importance. This finding emerges as a key takeaway
+        from the analysis and warrants further exploration in future studies.
+      </li></ul>
+
 <p>
-More broadly, this project has been an interesting first step in exploring
-feature relationships through network analysis.
-I'll try to capture a few general thoughts succinctly below:
+In a broader context, this project represents an initial exploration into
+understanding feature relationships through network analysis techniques. While
+the findings are preliminary, they offer some insights and potential
+directions for future research. Below, I've distilled some key reflections
+from this work:
 </p>
       <ul>
       <li>I think that applying network analysis and, in particular, looking
@@ -1210,6 +1260,17 @@ I'll try to capture a few general thoughts succinctly below:
       Although this would increase complexity due to the models learning a larger
       number of features, it’s likely that the signal would be less noisy compared to smaller models like GPT-2 Small.</li>
       </ul>
+
+      <p>
+      To conclude, this project represents a first step in exploring
+      feature relationships through network analysis in the context of
+      mechanistic interpretability. While the findings are promising, they
+      also highlight the complexity of the task at hand and the need for robust,
+      reproducible research in this field. As we continue to advance our
+      understanding of AI systems, integrating both detailed 'zooming in'
+      approaches and broader 'zooming out' perspectives will be crucial for
+      meaningful progress in AI alignment and safety efforts.
+      </p>
       <h3 id="thank-yous">Thank yous</h3>
       <p>A few quick acknowledgements. A big thank you to <a
       href="https://aisafetyfundamentals.com/alignment/">BlueDot for running
