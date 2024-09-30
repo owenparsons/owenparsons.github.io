@@ -1306,11 +1306,13 @@ from this work:
       main analysis. I’m adding this section just to quickly cover these
       features, but this is something I’d like to expand on further in the
       future.</p>
-      <p>Neuronpedia has a nice feature called auto-interp that gives an
+      <p>First, I had a quick look at what these features supposedly do.
+      Neuronpedia has a nice feature called auto-interp that gives an
       automatic, language model generated description of what the feature
       does. It’s not always perfect, but sometimes it gives a good initial
       insight into a feature. I’ve summarised the auto-interp desctiptions for
-      the 5 anomalous features below.</p>
+      the 5 anomalous features below. Nothing of note jumped out at me from
+      the descriptions, they actually seemed relatively diverse.</p>
       <ul>
       <li><a
       href="https://www.neuronpedia.org/gpt2-small/7-res-jb/14968">14968</a> -
@@ -1329,6 +1331,243 @@ from this work:
       href="https://www.neuronpedia.org/gpt2-small/7-res-jb/2360">2360</a>
       -“phrases related to social issues and equality”</li>
       </ul>
+      <p>I then checked that these features were all in the same cluster -
+      they were all in Cluster 2 - before plotting a heatmap of the feature
+      correlations. They were very high, with (almost) perfect correlation
+      between features ‘1498’, ‘2360’ and ‘21858’ (the raw correlation values
+      were actually slightly below 1.00 but were rounded up to 2 decimal
+      places).</p>
+
+      <img src="./figures/anom/high_max_Act_anom_features_heatmap.png"
+      alt="Correlations for high maximum activation features" class="in-text-image" onclick="showImage('./figures/anom/high_max_Act_anom_features_heatmap.png')">
+      <p>I thought at first this might be a bug, so I went back through
+      everything to run a few validation checks. I checked the raw attribution
+      values, expecting to find identical values across these feature columns.
+      However, the values I got differed across features. I’ve shown an
+      extract of this below.</p>
+      <table>
+      <colgroup>
+      <col style="width: 61%" />
+      <col style="width: 12%" />
+      <col style="width: 12%" />
+      <col style="width: 12%" />
+      </colgroup>
+      <thead>
+      <tr class="header">
+      <th></th>
+      <th>2360</th>
+      <th>21858</th>
+      <th>14968</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>Fact: Aaron Rodgers plays the sport of</td>
+      <td>-0.017676</td>
+      <td>-0.026757</td>
+      <td>-0.039775</td>
+      </tr>
+      <tr class="even">
+      <td>Fact: Adam Scott plays the sport of</td>
+      <td>-0.003785</td>
+      <td>-0.005497</td>
+      <td>-0.007886</td>
+      </tr>
+      <tr class="odd">
+      <td>Fact: Adrian Gonzalez plays the sport of</td>
+      <td>-0.009914</td>
+      <td>-0.014650</td>
+      <td>-0.022037</td>
+      </tr>
+      <tr class="even">
+      <td>Fact: Alex Rodriguez plays the sport of</td>
+      <td>-0.005118</td>
+      <td>-0.007270</td>
+      <td>-0.010192</td>
+      </tr>
+      <tr class="odd">
+      <td>Fact: Alfonso Soriano plays the sport of</td>
+      <td>-0.008666</td>
+      <td>-0.012638</td>
+      <td>-0.019193</td>
+      </tr>
+      <tr class="even">
+      <td>…</td>
+      <td>…</td>
+      <td>…</td>
+      <td>…</td>
+      </tr>
+      <tr class="odd">
+      <td>Fact: Wayne Rooney plays the sport of</td>
+      <td>-0.004556</td>
+      <td>-0.007803</td>
+      <td>-0.011947</td>
+      </tr>
+      <tr class="even">
+      <td>Fact: Wladimir Klitschko plays the sport of</td>
+      <td>0.002412</td>
+      <td>0.003184</td>
+      <td>0.005379</td>
+      </tr>
+      <tr class="odd">
+      <td>Fact: Zach Randolph plays the sport of</td>
+      <td>-0.007580</td>
+      <td>-0.010682</td>
+      <td>-0.015560</td>
+      </tr>
+      <tr class="even">
+      <td>Fact: Zlatan Ibrahimović plays the sport of</td>
+      <td>-0.003994</td>
+      <td>-0.006458</td>
+      <td>-0.009983</td>
+      </tr>
+      <tr class="odd">
+      <td>Fact: Cristiano Ronaldo plays the sport of</td>
+      <td>-0.015539</td>
+      <td>-0.023696</td>
+      <td>-0.036357</td>
+      </tr>
+      </tbody>
+      </table>
+      <p>I also went through the centrality metrics for these features. They
+      were on the higher end of the distribution for the cluster, but
+      otherwise nothing of note.</p>
+      <table>
+      <colgroup>
+      <col style="width: 12%" />
+      <col style="width: 18%" />
+      <col style="width: 23%" />
+      <col style="width: 21%" />
+      <col style="width: 23%" />
+      </colgroup>
+      <thead>
+      <tr class="header">
+      <th>feature_ids</th>
+      <th>degree_centrality</th>
+      <th>betweenness_centrality</th>
+      <th>closeness_centrality</th>
+      <th>eigenvector_centrality</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>14968</td>
+      <td>0.183908</td>
+      <td>0.016176</td>
+      <td>0.433214</td>
+      <td>0.134315</td>
+      </tr>
+      <tr class="even">
+      <td>22789</td>
+      <td>0.166667</td>
+      <td>0.007680</td>
+      <td>0.417879</td>
+      <td>0.124126</td>
+      </tr>
+      <tr class="odd">
+      <td>3259</td>
+      <td>0.114943</td>
+      <td>0.001741</td>
+      <td>0.385997</td>
+      <td>0.093255</td>
+      </tr>
+      <tr class="even">
+      <td>21858</td>
+      <td>0.195402</td>
+      <td>0.019733</td>
+      <td>0.439941</td>
+      <td>0.139313</td>
+      </tr>
+      <tr class="odd">
+      <td>2360</td>
+      <td>0.178161</td>
+      <td>0.015413</td>
+      <td>0.429276</td>
+      <td>0.128804</td>
+      </tr>
+      </tbody>
+      </table>
+      <p>I also went through the activation metrics and similarly found
+      nothing of note.</p>
+      <table>
+      <colgroup>
+      <col style="width: 12%" />
+      <col style="width: 22%" />
+      <col style="width: 22%" />
+      <col style="width: 22%" />
+      <col style="width: 22%" />
+      </colgroup>
+      <thead>
+      <tr class="header">
+      <th>feature_ids</th>
+      <th>abs_corr_activation</th>
+      <th>max_activation</th>
+      <th>absolute_summed_activation</th>
+      <th>std_activation</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="odd">
+      <td>14968</td>
+      <td>53.651523</td>
+      <td>0.014965</td>
+
+      <td>1.509947</td>
+      <td>0.011698</td>
+
+      </tr>
+      <tr class="even">
+      <td>22789</td>
+      <td>53.041857</td>
+      <td>0.013232</td>
+
+      <td>1.399653</td>
+      <td>0.011328</td>
+
+      </tr>
+      <tr class="odd">
+      <td>3259</td>
+      <td>46.172227</td>
+      <td>0.012707</td>
+
+      <td>1.079208</td>
+      <td>0.010637</td>
+
+      </tr>
+      <tr class="even">
+      <td>21858</td>
+      <td>53.887589</td>
+      <td>0.009430</td>
+
+      <td>1.003422</td>
+      <td>0.007736</td>
+
+      </tr>
+      <tr class="odd">
+      <td>2360</td>
+      <td>53.168008</td>
+      <td>0.006477</td>
+
+      <td>0.661920</td>
+      <td>0.005166</td>
+
+      </tr>
+      </tbody>
+      </table>
+      <p>Finally, I had a quick look at what happened to what happened to task
+      performance when I negatively steered all 5 of these features by varying
+      steering factors. I looked at this both with and without applying a
+      correction factor to the steering amount. This looks in line with what
+      I’d expect given the other results.</p>
+
+      <img
+      src="./figures/anom/high_max_Act_anom_features_baseline_steering.png"
+      alt="Multi steering for high maximum activation features" class="in-text-image" onclick="showImage('./figures/anom/high_max_Act_anom_features_baseline_steering.png')">
+
+      <p>At this point, I don’t fully understand why these 5 features are so
+      highly correlated. I’ll try to spend a bit more time on this in the
+      future. If you have any insights or thoughts into this then please let
+      me know!</p>
 
 <div id="imageModal" class="modal">
 <span class="close" onclick="closeModal()">×</span>
