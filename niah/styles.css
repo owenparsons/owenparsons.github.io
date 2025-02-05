@@ -1,0 +1,51 @@
+/* Make the image fill the container width */
+.in-text-image {
+  width: 100%; /* Make image fill the container width */
+  height: auto; /* Maintain the image aspect ratio */
+  cursor: pointer;
+  display: block;
+}
+
+/* Remove border from image */
+.image-container {
+  max-width: 100%; /* Ensure container doesn't overflow */
+  margin: 0; /* Optional: remove any default margin */
+}
+
+/* Modal (Full Image Display) Styling */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  background-color: rgba(0,0,0,0.8); /* Black background with opacity */
+}
+
+/* Modal Content (Full Image) */
+.modal-content {
+  display: block;
+  margin: auto;
+  max-width: 80%;
+  max-height: 80%;
+  border: 5px solid white;
+}
+
+/* Close button ('X') */
+.close {
+  position: absolute;
+  top: 20px;
+  right: 35px;
+  color: #fff;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.center-table {
+    margin-left: auto;
+    margin-right: auto;
+}
