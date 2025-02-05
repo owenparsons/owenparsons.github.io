@@ -20,6 +20,25 @@
             font-size: 2.5em;
             margin-bottom: 20px;
         }
+        pre {
+            background-color: #f6f8fa;
+            border-radius: 6px;
+            padding: 12px;  /* Reduced padding */
+            margin: 20px auto;  /* Center the block */
+            width: 95%;  /* Slightly less than full width */
+            font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+
+        code {
+            display: block;
+        }
+        .keyword { color: #0033b3; }
+        .string { color: #067d17; }
+        .function { color: #6f42c1; }
+        .comment { color: #6a737d; }
         .date {
             text-align: center;
             color: #666;
@@ -125,7 +144,54 @@
       <p>While the basic premise of the benchmark might seem straightforward - and, in theory, less likely to suffer from issues of brittleness - the process of  implementation the benchmark unearthed a few nuances of language models and considerations for designing benchmarks.</p>
       <p>I'll use this post tocapture my main observations and insights from implementing and analysing this benchmark. The aim is to explore not just the technical aspects of this specific implementation, but also broader implications for LLM eval design considerations. I'll discuss some of the challenges I encountered while implementing this benchmarking, highlight some of the limitations of the NIAH benchmark, and suggest some potential improvements.</p>
 
-      
+      <h3 id="introduction-inspectai">Inspect AI</h3>
+      <p>
+        The <a href="https://inspect.ai-safety-institute.org.uk/">Inspect AI framework</a> - developed and open-sourced by the <a href="https://www.aisi.gov.uk/">UK AI Safety Institute</a> - is a great tool for taking a more structured approach to evaluating LLMs. It has built-in components for supporting development of evaluations; from basic prompt engineering to more complex scenarios involving tool usage and multi-turn dialogues.</p>
+        
+        <p>Inspect is built around three core components that form the building blocks of an evaluation:
+          <ol type="1">
+            <li><b>Datasets:</b> These form the key part of most evaluations, consisting of labeled samples organized in a straightforward tabular format. Each sample typically contains an `input` (the prompt we want to test) and a `target` (what we expect or hope to see). The target can be either a specific expected response or guidelines for grading the model's output with a scoring model.</li>
+            <li><b>Solvers:</b> These are used for processing the inputs and generating results. Solvers can be chained together to create more complex evaluation flows. The most basic solver, `generate()`, simply passes a prompt to the model and collects its response. More sophisticated solvers can implement prompt engineering techniques, manage multi-turn conversations, or scaffolding for agent-based evaluations.</li>
+            <li><b>Scorers:</b> These evaluate how well the model's output matches our expectations. These can range from simple exact-match comparisons to model-based grading systems that assess responses based on specific criteria.</li>
+            </ol>
+      </p>
+      <p>
+        
+        There's a "Hello World" example on the <a href="https://inspect.ai-safety-institute.org.uk/tutorial.html#hello-world">Inspect AI website</a> that gives you an idea of how these components work together:
+        
+        <pre><code>
+        from inspect_ai import Task, task
+        from inspect_ai.dataset import Sample
+        from inspect_ai.scorer import exact
+        from inspect_ai.solver import generate
+        
+        @task
+        def hello_world():
+            return Task(
+                dataset=[
+                    Sample(
+                        input="Just reply with Hello World",
+                        target="Hello World",
+                    )
+                ],
+                solver=[generate()],
+                scorer=exact(),
+            )
+          </pre></code>
+        
+        To run this evaluation, you need to install inspect first:
+        <pre><code>
+          pip install inspect-ai
+        </pre></code>
+        
+        Then you can run the evaluation on GPT-4 with:
+        
+        <pre><code>
+        inspect eval hello_world.py --model openai/gpt-4
+        </pre></code>
+        
+        The <a href="https://inspect.ai-safety-institute.org.uk/">Inspect AI website</a> has a lot of other examples and documentation for how to use the framework. It's really well written and I recommend checking it out if you're interested in developing your own evaluations!
+      </p>
 
 <div id="imageModal" class="modal">
 <span class="close" onclick="closeModal()">×</span>
