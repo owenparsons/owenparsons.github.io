@@ -109,7 +109,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Thoughts on the 'Needle in a Haystack' Benchmark</h1>
+    <h1>Lessons from Implementing the 'Needle in a Haystack' Benchmark</h1>
     <p class="date">Owen Parsons - February 5, 2024</p>
     <p class="date"></p>
     <div class="image-container">
@@ -118,8 +118,14 @@
     <div class="content">
 
       <h2 id="introduction">Introduction</h2>
-      <h3 id="mechanistic-interpretability-and-neuroscience">Inspect AI</h3>
-      <p>Text here</p>
+      <h3 id="introduction-background">Background</h3>
+      <p>With the rapid development and constant evolution of Large Language Models (LLMs), developing robust evaluation frameworks has become increasingly crucial. As these models simultaneously become more sophisticated and also more ubiquitous, understanding their capabilities and limitations through systematic testing is vital.</p>
+      <p>I recently had the opportunity to work with the AI Safety Engineering Taskforce (ASET) at <a href="https://www.aracdiaimpact.org/">Arcadia Impact</a>, where our focus was implementing benchmarks for the <a href="https://inspectai.ai/">Inspect AI</a> framework. Inspect AI, developed by the <a href="https://aisafety.org/">AI Safety Institute (AISI)</a>, represents a comprehensive approach to evaluating and understanding the behavior of language models across various dimensions of performance and safety.</p>
+      <p>I chose to implement and explore the "Needle in a Haystack" (NIAH) benchmark - a conceptually simple evaluation of long-context retrieval. The benchmark tests an LLM's ability to accurately recall and reference specific information embedded within a larger context, attempting to mimic real-world scenarios where precise information retrieval is crucial. The original implementation of this benchmark was pioneered by Greg Kamradt, who <a href="https://github.com/gkamradt/LLMTest_NeedleInAHaystack">proposed the benchmark</a> and provided an <a href="https://www.youtube.com/watch?v=KwRRuiCCdmc">insightful walkthrough of the concept.</a></p>
+      <p>While the basic premise of the benchmark might seem straightforward - and, in theory, less likely to suffer from issues of brittleness - the process of  implementation the benchmark unearthed a few nuances of language models and considerations for designing benchmarks.</p>
+      <p>I'll use this post tocapture my main observations and insights from implementing and analysing this benchmark. The aim is to explore not just the technical aspects of this specific implementation, but also broader implications for LLM eval design considerations. I'll discuss some of the challenges I encountered while implementing this benchmarking, highlight some of the limitations of the NIAH benchmark, and suggest some potential improvements.</p>
+
+      
 
 <div id="imageModal" class="modal">
 <span class="close" onclick="closeModal()">×</span>
