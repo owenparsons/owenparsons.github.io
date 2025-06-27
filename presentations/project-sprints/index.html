@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project sprints</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            background: #0d1117;
+            color: #c9d1d9;
+            overflow: hidden;
+            height: 100vh;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .presentation-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .slide {
+            display: none;
+            max-width: 800px;
+            width: 100%;
+            min-height: 500px;
+            padding: 40px;
+            border: 1px solid #30363d;
+            background: #161b22;
+            border-radius: 8px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .prompt {
+            color: #7c3aed;
+            margin-bottom: 24px;
+            font-weight: normal;
+        }
+
+        .prompt::before {
+            content: "$ ";
+            color: #58a6ff;
+        }
+
+        h1 {
+            color: #f0f6fc;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 32px;
+            border-bottom: 1px solid #21262d;
+            padding-bottom: 16px;
+        }
+
+        h2 {
+            color: #f0f6fc;
+            font-size: 2rem;
+            font-weight: 500;
+            margin-bottom: 24px;
+        }
+
+        h3 {
+            color: #7d8590;
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 16px;
+        }
+
+        p {
+            color: #c9d1d9;
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+        }
+
+        .code-block {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 16px;
+            margin: 20px 0;
+            font-family: inherit;
+            color: #e6edf3;
+            overflow-x: auto;
+        }
+
+        .command {
+            color: #58a6ff;
+        }
+
+        .output {
+            color: #7d8590;
+            margin-left: 0;
+        }
+
+        .comment {
+            color: #8b949e;
+        }
+
+        ul {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        li {
+            color: #c9d1d9;
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        li::before {
+            content: "•";
+            color: #58a6ff;
+            position: absolute;
+            left: 0;
+        }
+
+        .status-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 24px;
+            background: #21262d;
+            border-top: 1px solid #30363d;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            font-size: 0.85rem;
+            color: #7d8590;
+        }
+
+        .slide-info {
+            display: flex;
+            gap: 16px;
+        }
+
+        .nav-hint {
+            color: #58a6ff;
+        }
+
+        .highlight {
+            background: #1f2328;
+            border: 1px solid #30363d;
+            border-radius: 3px;
+            padding: 2px 6px;
+            color: #7c3aed;
+        }
+
+        .filename {
+            color: #ffa657;
+        }
+
+        .success {
+            color: #3fb950;
+        }
+
+        .error {
+            color: #f85149;
+        }
+
+        .tree {
+            font-family: inherit;
+            white-space: pre;
+            color: #7d8590;
+            margin: 16px 0;
+        }
+
+        .ascii-art {
+            font-family: inherit;
+            white-space: pre;
+            color: #58a6ff;
+            text-align: center;
+            margin: 24px 0;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <!-- <div class="prompt">whoami && pwd</div> -->
+            <h1>Project sprints</h1>
+            <p>What we did and what we learned</p>
+            <!-- <div class="code-block">
+<span class="command">$ uptime</span>
+<span class="output"> 15:42:30 up 127 days,  3:21,  1 user,  load average: 0.15, 0.09, 0.05</span>
+
+<span class="command">$ date</span>
+<span class="output">Fri Jun 27 15:42:30 UTC 2025</span>
+            </div> -->
+            <!-- <p class="comment"># Navigate with arrow keys or hjkl</p> -->
+        </div>
+
+        <!-- Slide 2: Philosophy -->
+        <div class="slide">
+            <!-- <div class="prompt">cat /etc/philosophy</div> -->
+            <h2>What is a 'project sprint'?</h2>
+            <ul>
+                <li>Short research projects (SRPs)</li>
+                <li>Intended to fill gaps between paid work</li>
+                <li>Ideally aligned with long term product goals</li>
+            </ul>
+        </div>
+
+        <!-- Slide 8: Conclusion -->
+        <div class="slide">
+            <div class="prompt">exit 0</div>
+            <h2>Summary</h2>
+            <div class="ascii-art">
+ _   _ _   _ _____  __
+| | | | \ | |_ _\ \/ /
+| | | |  \| || | \  / 
+| |_| | |\  || | /  \ 
+ \___/|_| \_|___/_/\_\
+                      
+</div>
+            <ul>
+                <li>Keep it simple</li>
+                <li>Compose small tools</li>
+                <li>Measure and monitor</li>
+                <li>Automate everything</li>
+                <li>Fail fast, recover faster</li>
+            </ul>
+            <div class="code-block">
+<span class="command">$ echo "Thanks for your attention" | cowsay</span>
+<span class="output"> _________________________
+&lt; Thanks for your attention &gt;
+ -------------------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="status-bar">
+        <div class="slide-info">
+            <span>presentation.html</span>
+            <span id="slide-counter">1/8</span>
+        </div>
+        <div class="nav-hint">h/l or ←/→ to navigate</div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const slideCounter = document.getElementById('slide-counter');
+
+        function updateSlideCounter() {
+            slideCounter.textContent = `${currentSlide + 1}/${totalSlides}`;
+        }
+
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            
+            if (n >= totalSlides) currentSlide = 0;
+            if (n < 0) currentSlide = totalSlides - 1;
+            
+            slides[currentSlide].classList.add('active');
+            updateSlideCounter();
+        }
+
+        function nextSlide() {
+            currentSlide++;
+            showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide--;
+            showSlide(currentSlide);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            switch(e.key) {
+                case 'ArrowRight':
+                case 'l':
+                case ' ':
+                    e.preventDefault();
+                    nextSlide();
+                    break;
+                case 'ArrowLeft':
+                case 'h':
+                    e.preventDefault();
+                    prevSlide();
+                    break;
+                case 'j':
+                    e.preventDefault();
+                    nextSlide();
+                    break;
+                case 'k':
+                    e.preventDefault();
+                    prevSlide();
+                    break;
+                case 'Home':
+                case 'g':
+                    e.preventDefault();
+                    currentSlide = 0;
+                    showSlide(currentSlide);
+                    break;
+                case 'End':
+                case 'G':
+                    e.preventDefault();
+                    currentSlide = totalSlides - 1;
+                    showSlide(currentSlide);
+                    break;
+                case 'q':
+                    e.preventDefault();
+                    if (confirm('Exit presentation?')) {
+                        window.close();
+                    }
+                    break;
+            }
+        });
+
+        // Initialize
+        updateSlideCounter();
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>
