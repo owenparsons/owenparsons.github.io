@@ -18,7 +18,10 @@ Education
 Employment and Secondments
 ======
 * Lead Machine Learning Researcher
-  * September 2022 - Present
+  * September 2025 - Present
+  * Thymia, London
+* Lead Machine Learning Researcher
+  * September 2022 - September 2025
   * Mind Foundry, Oxford
     
 * Senior Machine Learning Researcher
